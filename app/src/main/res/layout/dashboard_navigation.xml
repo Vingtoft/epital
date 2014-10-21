@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="100dp"
+    android:background="#00acc3">
+
+    <HorizontalScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/dashboard_navigation_btn1"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/dashboard_navigation_buttonstyle"
+                android:minWidth="150dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:text="Kontakt CC"
+                android:textColor="#ffffff"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:src="@drawable/dashboard_navigation_stople" />
+
+            <Button
+                android:id="@+id/dashboard_navigation_btn2"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/dashboard_navigation_buttonstyle"
+                android:minWidth="150dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:text="Daglig måling"
+                android:textColor="#ffffff"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:src="@drawable/dashboard_navigation_stople" />
+
+            <Button
+                android:id="@+id/dashboard_navigation_btn3"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/dashboard_navigation_buttonstyle"
+                android:minWidth="150dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:text="Min medicin"
+                android:textColor="#ffffff"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:src="@drawable/dashboard_navigation_stople" />
+
+            <Button
+                android:id="@+id/dashboard_navigation_btn4"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/dashboard_navigation_buttonstyle"
+                android:minWidth="150dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:text="Mine tilbud"
+                android:textColor="#ffffff"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:src="@drawable/dashboard_navigation_stople" />
+
+            <Button
+                android:id="@+id/dashboard_navigation_btn5"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/dashboard_navigation_buttonstyle"
+                android:minWidth="150dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:text="Historik"
+                android:textColor="#ffffff"
+                android:textSize="30dp" />
+
+            <ImageView
+                android:layout_width="5dp"
+                android:layout_height="70dp"
+                android:layout_marginTop="@dimen/activity_vertical_margin"
+                android:src="@drawable/dashboard_navigation_stople" />
+
+            <Button
+                android:id="@+id/dashboard_navigation_btn6"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:background="@drawable/dashboard_navigation_buttonstyle"
+                android:minWidth="150dp"
+                android:paddingLeft="10dp"
+                android:paddingRight="5dp"
+                android:text="Indstillinger"
+                android:textColor="#ffffff"
+                android:textSize="30dp" />
+        </LinearLayout>
+    </HorizontalScrollView>
+</RelativeLayout>

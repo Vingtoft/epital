@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">TabletTestApplication</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+
+    <string-array name="titles">
+        <item>Puls og oxygen</item>
+        <item>Lungefunktion</item>
+        <item>Temperatur</item>
+        <item>Spørgsmål 1</item>
+        <item>Spørgsmål 2</item>
+        <item>Spørgsmål 3</item>
+    </string-array>
+
+    <array name="icons">
+        <item>@drawable/button1</item>
+        <item>@drawable/button2</item>
+        <item>@drawable/button3</item>
+        <item>@drawable/button4</item>
+        <item>@drawable/button5</item>
+        <item>@drawable/button6</item>
+    </array>
+
+    <!-- Questions-->
+    <string-array name="question_1">
+        <item>Spørgsmål 1:</item>
+        <item>Har du farvet spyt?</item>
+        <item>Ja</item>
+        <item>Nej</item>
+    </string-array>
+
+    <string-array name="question_2">
+        <item>Spørgsmål 2:</item>
+        <item>Har du tiltagende hoste?</item>
+        <item>Ja</item>
+        <item>Nej</item>
+    </string-array>
+
+    <string-array name="question_3">
+        <item>Spørgsmål 3:</item>
+        <item>Har du tiltagende åndenød?</item>
+        <item>Ja</item>
+        <item>Nej</item>
+    </string-array>
+
+</resources>
