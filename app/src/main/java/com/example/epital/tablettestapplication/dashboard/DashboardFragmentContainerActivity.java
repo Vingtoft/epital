@@ -19,7 +19,7 @@ import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Daily
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Navigation.DailyMeasurementListFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Questions.DailyMeasurementQuestionFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Temperature.DailyMeasurementTemperatureFragment;
-import com.example.epital.tablettestapplication.dashboard.history.CitizentHistoryFragment;
+import com.example.epital.tablettestapplication.dashboard.History.CitizentHistoryFragment;
 import com.example.epital.tablettestapplication.database.DailyMeasurementDatabaseHandler;
 
 import java.util.ArrayList;
@@ -90,7 +90,12 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
     }
 
     private void databaseTest() {
-
+        System.out.println("DatabaseTest START");
+        DailyMeasurementDatabaseHandler dataHandler = new DailyMeasurementDatabaseHandler(getApplicationContext());
+        dataHandler.open();
+        //dataHandler.insertData("Oscar", "VingtoftOscar@Gmail.com");
+        Cursor test = dataHandler.returnData();
+        System.out.println("Det her det sner: " + test.move(5));
     }
 
     private void removeActiveFragments() {
@@ -133,7 +138,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 activeFragments.add(dailyMeasurementListFragment);
                 fragmentTransaction.add(R.id.dashboard_container, dailyMeasurementListFragment, "dailyMeasurementListFragment");
                 fragmentTransaction.commit();
-                changeDailyMeasurementContent(0);
+                changeDailyMeasurementContent(7);
                 break;
             case 3:
                 System.out.println("Min medicin");
@@ -275,14 +280,19 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
         System.out.println("Save to Database START");
         DailyMeasurementDatabaseHandler dataHandler = new DailyMeasurementDatabaseHandler(getApplicationContext());
         dataHandler.open();
+        /*
         dataHandler.insertCompleteDailyMeasurement(dailyMeasurementDataObject.getPulse(),
                 dailyMeasurementDataObject.getOxygen(),
                 dailyMeasurementDataObject.getFev1(),
                 dailyMeasurementDataObject.getTemperature(),
                 dailyMeasurementDataObject.getQuestion1(),
                 dailyMeasurementDataObject.getQuestion2(),
-                dailyMeasurementDataObject.getQuestion3());
+                dailyMeasurementDataObject.getQuestion3());*/
+        dataHandler.insertCompleteDailyMeasurement(1, 2, 3.0, 4.0, true, false, true);
+        dataHandler.close();
+
     }
+
 
     /* Setters for  data */
     @Override
