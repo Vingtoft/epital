@@ -19,7 +19,7 @@ import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Daily
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Navigation.DailyMeasurementListFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Questions.DailyMeasurementQuestionFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Temperature.DailyMeasurementTemperatureFragment;
-import com.example.epital.tablettestapplication.dashboard.history.CitizentHistoryFragment;
+import com.example.epital.tablettestapplication.dashboard.History.CitizentHistoryFragment;
 import com.example.epital.tablettestapplication.database.DailyMeasurementDatabaseHandler;
 
 import java.util.ArrayList;

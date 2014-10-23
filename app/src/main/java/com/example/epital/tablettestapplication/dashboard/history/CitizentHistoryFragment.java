@@ -1,4 +1,4 @@
-package com.example.epital.tablettestapplication.dashboard.history;
+package com.example.epital.tablettestapplication.dashboard.History;
 
 import android.app.Fragment;
 import android.os.Bundle;
