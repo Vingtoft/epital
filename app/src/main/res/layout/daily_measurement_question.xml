@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/daily_measurement_content_base"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="431dp"
+    android:layout_marginTop="101dp"
+    android:background="#0ff">
+
+    <TextView
+        android:id="@+id/question_headline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="47dp"
+        android:text="Dette er en test"
+        android:textColor="#ffffff"
+        android:textSize="45dp" />
+
+    <TextView
+        android:id="@+id/question_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="200dp"
+        android:text="Har du farvet slim eller spyt?"
+        android:textColor="#ffffff"
+        android:textSize="35dp" />
+
+    <Button
+        android:id="@+id/question_yes"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="Ja"
+        android:textSize="35dp"
+        android:layout_marginLeft="480dp"
+        android:layout_marginTop="500dp"/>
+
+    <Button
+        android:id="@+id/question_no"
+        android:layout_width="200dp"
+        android:layout_height="80dp"
+        android:gravity="center"
+        android:text="Nej"
+        android:textSize="35dp"
+        android:layout_marginLeft="160dp"
+        android:layout_marginTop="500dp"/>
+
+
+</RelativeLayout>
