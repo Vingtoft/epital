@@ -2,7 +2,9 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 20
-    buildToolsVersion "20.0.0"
+    buildToolsVersion '20.0.0'
+
+
 
     defaultConfig {
         applicationId "com.example.epital.tablettestapplication"
@@ -21,4 +23,6 @@ android {
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile project(':hellocharts-library')
+    compile files('libs/gson-2.3-sources.jar')
 }

@@ -7,13 +7,21 @@
     android:layout_marginTop="101dp"
     android:background="#0ff">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Historie"
-        android:id="@+id/textView"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="47dp" />
+    <lecho.lib.hellocharts.view.LineChartView
+        android:id="@+id/history_lineChart"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_height="250dp"
+        android:layout_marginTop="70dp"
+        android:layout_centerHorizontal="true"/>
+
+    <lecho.lib.hellocharts.view.ColumnChartView
+        android:id="@+id/history_columnChart"
+        android:layout_width="match_parent"
+        android:layout_height="250dp"
+        android:layout_marginLeft="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="330dp"/>
+
 </RelativeLayout>

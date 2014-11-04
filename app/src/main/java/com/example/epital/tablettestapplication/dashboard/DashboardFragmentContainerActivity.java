@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.epital.tablettestapplication.R;
@@ -60,10 +61,13 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.dashboard_container);
+
 
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+        //Set activity to full screen
+
+        setContentView(R.layout.dashboard_container);
 
         //Initiate the fragments
         //TODO: Spørgsmål til Jacob: Er det good practice at have alle referencer til objekter her?
@@ -138,7 +142,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 activeFragments.add(dailyMeasurementListFragment);
                 fragmentTransaction.add(R.id.dashboard_container, dailyMeasurementListFragment, "dailyMeasurementListFragment");
                 fragmentTransaction.commit();
-                changeDailyMeasurementContent(7);
+                changeDailyMeasurementContent(0);
                 break;
             case 3:
                 System.out.println("Min medicin");
@@ -258,7 +262,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                         dailyMeasurementDataObject.getQuestion2(),
                         dailyMeasurementDataObject.getQuestion3());
                 //clear DailyMeasurementDataObject, its all yours garbage collector!
-                dailyMeasurementDataObject = null;
+                //dailyMeasurementDataObject = null;
                 //move to new fragment
                 removeDailyMeasurementActiveFragments();
                 fragmentManager = getFragmentManager();
@@ -280,15 +284,13 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
         System.out.println("Save to Database START");
         DailyMeasurementDatabaseHandler dataHandler = new DailyMeasurementDatabaseHandler(getApplicationContext());
         dataHandler.open();
-        /*
         dataHandler.insertCompleteDailyMeasurement(dailyMeasurementDataObject.getPulse(),
                 dailyMeasurementDataObject.getOxygen(),
                 dailyMeasurementDataObject.getFev1(),
                 dailyMeasurementDataObject.getTemperature(),
                 dailyMeasurementDataObject.getQuestion1(),
                 dailyMeasurementDataObject.getQuestion2(),
-                dailyMeasurementDataObject.getQuestion3());*/
-        dataHandler.insertCompleteDailyMeasurement(1, 2, 3.0, 4.0, true, false, true);
+                dailyMeasurementDataObject.getQuestion3());
         dataHandler.close();
 
     }

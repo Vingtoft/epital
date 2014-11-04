@@ -1,0 +1,90 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven-publish'
+
+buildscript {
+  repositories {
+    mavenCentral()
+  }
+  dependencies {
+    classpath 'com.android.tools.build:gradle:0.12.+'
+  }
+}
+
+dependencies {
+    //compile fileTree(dir: 'libs', include: '*.jar')
+    compile 'com.android.support:support-v4:19.1.0'
+}
+
+
+android {
+    compileSdkVersion 20
+    buildToolsVersion '20.0.0'
+
+    compileOptions {
+    }
+
+    defaultConfig {
+        minSdkVersion 16
+        targetSdkVersion 20
+        versionCode 1
+        versionName '1.0'
+        applicationId 'lecho.lib.hellocharts'
+    }
+
+    sourceSets {
+        main {
+            manifest.srcFile 'AndroidManifest.xml'
+            java.srcDirs = ['src']
+            resources.srcDirs = ['src']
+            aidl.srcDirs = ['src']
+            renderscript.srcDirs = ['src']
+            res.srcDirs = ['res']
+            assets.srcDirs = ['assets']
+        }
+    }
+	
+	 buildTypes {
+		release {
+			runProguard false
+			proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+		}
+	}
+
+	lintOptions {
+		abortOnError false
+	}
+
+}
+
+task androidSourcesJar(type: Jar) {
+	classifier = 'sources'
+	from android.sourceSets.main.java.sourceFiles
+}
+
+// To publish to maven local execute "gradle clean build publishToMavenLocal"
+// To publish to nexus execute "gradle clean build publish"
+android.libraryVariants
+publishing {
+    publications {
+        maven(MavenPublication) {
+            artifact "${project.buildDir}/outputs/aar/${project.name}.aar"
+            artifactId project.name
+            groupId android.defaultConfig.applicationId
+            version android.defaultConfig.versionName
+			
+			artifact androidSourcesJar {
+                classifier "sources"
+            }
+        }
+    }
+    
+    repositories {
+        maven {
+            credentials {
+                username 'nexusUser'
+                password 'nexusPass'
+            }
+            url "http://your-nexus-url/"
+        }
+    }
+}
