@@ -10,6 +10,7 @@ import android.view.Window;
 import android.view.WindowManager;
 
 import com.example.epital.tablettestapplication.R;
+import com.example.epital.tablettestapplication.connection.SaveDailyMeasurementToServer;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.BeforeYouStart.DailyMeasurementBeforeYouStartFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Complete.DailyMeasurementCompleteFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.LungFunction.DailyMeasurementLungFunctionFragmenCOPD6;
