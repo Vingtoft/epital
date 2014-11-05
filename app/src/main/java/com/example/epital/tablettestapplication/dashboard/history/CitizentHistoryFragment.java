@@ -96,6 +96,7 @@ public class CitizentHistoryFragment extends Fragment implements View.OnClickLis
 
 
     }
+
     private void generateInitialLineData() {
         int numValues = 7;
 

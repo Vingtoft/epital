@@ -3,6 +3,7 @@ package com.example.epital.tablettestapplication.dashboard.DailyMeasurement;
 /**
  * Created by oscarandersen on 13/10/14.
  */
+
 public class DailyMeasurementDataObject {
     int pulse, oxygen;
     double temperature, fev1;

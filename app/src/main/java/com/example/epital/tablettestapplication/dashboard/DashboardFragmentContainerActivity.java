@@ -147,6 +147,9 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 break;
             case 3:
                 System.out.println("Min medicin");
+                //clear DailyMeasurementDataObject, its all yours garbage collector!
+                //dailyMeasurementDataObject = null;
+                //move to new fragment
                 removeActiveFragments();
                 removeDailyMeasurementActiveFragments();
                 break;
@@ -255,6 +258,8 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
             case 7:
                 //save data to database
                 saveCompleteDailyMeasurementToDatabase();
+                //Upload data to server
+                SaveDailyMeasurementToServer.save(dailyMeasurementDataObject);
                 dailyMeasurementCompleteFragment = new DailyMeasurementCompleteFragment(dailyMeasurementDataObject.getPulse(),
                         dailyMeasurementDataObject.getOxygen(),
                         dailyMeasurementDataObject.getFev1(),
@@ -263,8 +268,12 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                         dailyMeasurementDataObject.getQuestion2(),
                         dailyMeasurementDataObject.getQuestion3());
                 //clear DailyMeasurementDataObject, its all yours garbage collector!
+
+
                 //dailyMeasurementDataObject = null;
                 //move to new fragment
+
+
                 removeDailyMeasurementActiveFragments();
                 fragmentManager = getFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
@@ -283,6 +292,8 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
 
     private void saveCompleteDailyMeasurementToDatabase() {
         System.out.println("Save to Database START");
+
+        /*
         DailyMeasurementDatabaseHandler dataHandler = new DailyMeasurementDatabaseHandler(getApplicationContext());
         dataHandler.open();
         dataHandler.insertCompleteDailyMeasurement(dailyMeasurementDataObject.getPulse(),
@@ -293,7 +304,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 dailyMeasurementDataObject.getQuestion2(),
                 dailyMeasurementDataObject.getQuestion3());
         dataHandler.close();
-
+        */
     }
 
 

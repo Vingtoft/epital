@@ -81,8 +81,13 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="gson-2.2.4" level="project" />
     <orderEntry type="library" exported="" name="1_gson-2.2.4" level="project" />
+    <orderEntry type="library" exported="" name="realm-0.72.0" level="project" />
+    <orderEntry type="library" exported="" name="1_realm-0.72.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
+    <orderEntry type="library" exported="" name="okio-1.0.0" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="mockwebserver-2.0.0" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-1.0.0" level="project" />
     <orderEntry type="module" module-name="hellocharts-library" exported="" />
   </component>
 </module>
