@@ -34,7 +34,7 @@ public class LoadingFragment extends Fragment {
 
     private void init() {
 
-        pulse = (ImageView) getView().findViewById(R.id.pulse);
+        pulse = (ImageView) getView().findViewById(R.id.pulseImage);
         pulse.setBackgroundResource(R.drawable.pulse);
         AnimationDrawable pulseAnimation = (AnimationDrawable) pulse.getBackground();
         pulseAnimation.start();

@@ -33,6 +33,7 @@ public class DailyMeasurementLungFunctionFragmenCOPD6 extends Fragment implement
     RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.FILL_PARENT, RelativeLayout.LayoutParams.FILL_PARENT);
     BluetoothConnectionAgent bluetoothConnectionAgent;
     String device_name = "COPD_6346";
+    //String device_name = "COPD_9943";
     int current_state, previous_state;
     BluetoothDevice device;
     RelativeLayout currentLayout;

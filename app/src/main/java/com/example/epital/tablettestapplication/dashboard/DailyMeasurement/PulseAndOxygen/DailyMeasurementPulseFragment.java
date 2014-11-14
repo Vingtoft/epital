@@ -32,6 +32,7 @@ import android.os.CountDownTimer;
 /**
  * Created by oscarandersen on 03/10/14.
  */
+
 public class DailyMeasurementPulseFragment extends Fragment {
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -46,6 +47,8 @@ public class DailyMeasurementPulseFragment extends Fragment {
     List<Integer> oxygenHolder = new ArrayList<Integer>();
     List<Integer> pulseHolder = new ArrayList<Integer>();
     DailyMeasurementFragmentCommunication comm;
+    String paired_device = "Nonin_Medical_Inc._569799";
+    //String paired_device = "Nonin_Medical_Inc._396502";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -110,7 +113,7 @@ public class DailyMeasurementPulseFragment extends Fragment {
                 current_state = 4;
                 changeLayout(3);
                 //Check if the NONIN saturation device is a part of already paired devices:
-                if (checkForPairedDevices("Nonin_Medical_Inc._569799")) {
+                if (checkForPairedDevices(paired_device)) {
                     //The NONIN device is already paired. Initiate connection!
                     dailyMeasurementStateMachine(5);
                 } else {
@@ -237,6 +240,7 @@ public class DailyMeasurementPulseFragment extends Fragment {
             for (BluetoothDevice device : pairedDevices) {
                 if (device.getName().equals(device_name)) {
                     noninDevice = device;
+                    System.out.println("Device fundet!");
                     return true;
                 }
             }
@@ -272,8 +276,12 @@ public class DailyMeasurementPulseFragment extends Fragment {
             // Get a BluetoothSocket to connect with the given BluetoothDevice
             try {
                 // MY_UUID is the app's UUID string, also used by the server code
-                tmp = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                //TODO: If device Android version is 4.0.4 or 4.0.3 do this:
+                tmp = device.createInsecureRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                //TODO: Else: Do this:
+                //tmp = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
             } catch (IOException e) {
+                System.out.println("Noget gik galt i ConnectThread " + e);
             }
             mmSocket = tmp;
         }
@@ -285,7 +293,9 @@ public class DailyMeasurementPulseFragment extends Fragment {
                 try {
                     // Connect the device through the socket. This will block
                     // until it succeeds or throws an exception
+                    System.out.println("Hvorfor gør den det?");
                     mmSocket.connect();
+                    System.out.println("Argh!");
                     break;
                 } catch (IOException connectException) {
                     System.out.println("buuuh" + failed_rate + connectException);

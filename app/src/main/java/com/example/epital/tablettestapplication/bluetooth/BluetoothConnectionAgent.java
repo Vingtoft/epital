@@ -54,7 +54,10 @@ public class BluetoothConnectionAgent {
             // Get a BluetoothSocket to connect with the given BluetoothDevice
             try {
                 // MY_UUID is the app's UUID string, also used by the server code
-                tmp = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                //TODO: If device Android version is 4.0.4 or 4.0.3 do this:
+                tmp = device.createInsecureRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                //TODO: Else: Do this:
+                //tmp = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
             } catch (IOException e) {
             }
             mmSocket = tmp;
@@ -138,7 +141,6 @@ public class BluetoothConnectionAgent {
                 try {
                     // Read from the InputStream
                     bytes = mmInStream.read(buffer);
-
                     byte[] new_buffer = new byte[bytes];
 
                     for (int i = 0; i < bytes; i++){

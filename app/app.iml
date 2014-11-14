@@ -85,6 +85,8 @@
     <orderEntry type="library" exported="" name="1_realm-0.72.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-19.1.0" level="project" />
     <orderEntry type="library" exported="" name="okio-1.0.0" level="project" />
+    <orderEntry type="library" exported="" name="joda-time-2.5" level="project" />
+    <orderEntry type="library" exported="" name="1_joda-time-2.5" level="project" />
     <orderEntry type="library" exported="" name="okhttp-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="mockwebserver-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="okhttp-1.0.0" level="project" />

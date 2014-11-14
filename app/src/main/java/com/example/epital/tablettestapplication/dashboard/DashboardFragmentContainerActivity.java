@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.database.Cursor;
+import android.content.Intent;
 import android.os.Bundle;
-import android.view.Window;
+import android.view.View;
 import android.view.WindowManager;
 
 import com.example.epital.tablettestapplication.R;
@@ -21,11 +21,19 @@ import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Daily
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Navigation.DailyMeasurementListFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Questions.DailyMeasurementQuestionFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Temperature.DailyMeasurementTemperatureFragment;
-import com.example.epital.tablettestapplication.dashboard.History.CitizentHistoryFragment;
+import com.example.epital.tablettestapplication.dashboard.History.CitizenHistoryFragment;
 import com.example.epital.tablettestapplication.database.DailyMeasurementDatabaseHandler;
+import com.example.epital.tablettestapplication.database.RealmDailyMeasurementDataObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+
+import java.util.Date;
+
+import io.realm.Realm;
+import io.realm.RealmResults;
 
 /**
  * Created by oscarandersen on 03/10/14.
@@ -47,7 +55,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
 
     //daily measurement list
     //history
-    CitizentHistoryFragment citizentHistoryFragment;
+    CitizenHistoryFragment citizentHistoryFragment;
 
     /*Arraylist containing all active fragments*/
     List<Fragment> activeFragments = new ArrayList<Fragment>();
@@ -81,7 +89,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
         dailyMeasurementTemperatureFragment = new DailyMeasurementTemperatureFragment();
         dailyMeasurementLungFunctionFragmentSPIROMAGIC = new DailyMeasurementLungFunctionFragmentSPIROMAGIC();
 
-        citizentHistoryFragment = new CitizentHistoryFragment();
+        citizentHistoryFragment = new CitizenHistoryFragment();
 
         //init daily measurement data object
         dailyMeasurementDataObject = new DailyMeasurementDataObject();
@@ -91,16 +99,12 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
         fragmentTransaction.add(R.id.dashboard_container, navigationFragment, "navigationFragment");
         fragmentTransaction.commit();
 
-        //databaseTest();
-    }
+        //hide bottom navigation bar
+        /*
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
+        decorView.setSystemUiVisibility(uiOptions);*/
 
-    private void databaseTest() {
-        System.out.println("DatabaseTest START");
-        DailyMeasurementDatabaseHandler dataHandler = new DailyMeasurementDatabaseHandler(getApplicationContext());
-        dataHandler.open();
-        //dataHandler.insertData("Oscar", "VingtoftOscar@Gmail.com");
-        Cursor test = dataHandler.returnData();
-        System.out.println("Det her det sner: " + test.move(5));
     }
 
     private void removeActiveFragments() {
@@ -147,14 +151,31 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 break;
             case 3:
                 System.out.println("Min medicin");
-                //clear DailyMeasurementDataObject, its all yours garbage collector!
-                //dailyMeasurementDataObject = null;
+                DailyMeasurementDatabaseHandler databaseHandler = new DailyMeasurementDatabaseHandler(this);
+                databaseHandler.generateTestData();
                 //move to new fragment
                 removeActiveFragments();
                 removeDailyMeasurementActiveFragments();
                 break;
             case 4:
                 System.out.println("Mine tilbud");
+                //get all DM datasets
+
+                Realm realm = Realm.getInstance(this, "dailymeasurements6.realm");
+                RealmResults<RealmDailyMeasurementDataObject> realmResults = realm.where(RealmDailyMeasurementDataObject.class).findAll();
+                int a = 0;
+                for (RealmDailyMeasurementDataObject result : realmResults) {
+                    System.out.println("Måling nummer: " + a);
+                    System.out.println("Pulse: " + result.getPulse());
+                    System.out.println("Oxygen: " + result.getOxygen());
+                    System.out.println("Fev1: " + result.getFev1());
+                    System.out.println("Temp: " + result.getTemperature());
+                    System.out.println("Q1: " + result.isQuestion1());
+                    System.out.println("Q2: " + result.isQuestion2());
+                    System.out.println("Q3: " + result.isQuestion3());
+                    System.out.println("Timestamp: " + result.getTime_stamp());
+                    a++;
+                }
                 removeActiveFragments();
                 removeDailyMeasurementActiveFragments();
                 break;
@@ -173,6 +194,12 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 removeActiveFragments();
                 removeDailyMeasurementActiveFragments();
                 break;
+            case 7:
+                System.out.println("Afslut program");
+                Intent startMain = new Intent(Intent.ACTION_MAIN);
+                startMain.addCategory(Intent.CATEGORY_HOME);
+                startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                startActivity(startMain);
             default:
                 break;
         }
@@ -257,7 +284,8 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 break;
             case 7:
                 //save data to database
-                saveCompleteDailyMeasurementToDatabase();
+                DailyMeasurementDatabaseHandler databaseHandler = new DailyMeasurementDatabaseHandler(this);
+                databaseHandler.saveDailyMeasurement(dailyMeasurementDataObject);
                 //Upload data to server
                 SaveDailyMeasurementToServer.save(dailyMeasurementDataObject);
                 dailyMeasurementCompleteFragment = new DailyMeasurementCompleteFragment(dailyMeasurementDataObject.getPulse(),
@@ -268,8 +296,6 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                         dailyMeasurementDataObject.getQuestion2(),
                         dailyMeasurementDataObject.getQuestion3());
                 //clear DailyMeasurementDataObject, its all yours garbage collector!
-
-
                 //dailyMeasurementDataObject = null;
                 //move to new fragment
 
@@ -289,24 +315,6 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 break;
         }
     }
-
-    private void saveCompleteDailyMeasurementToDatabase() {
-        System.out.println("Save to Database START");
-
-        /*
-        DailyMeasurementDatabaseHandler dataHandler = new DailyMeasurementDatabaseHandler(getApplicationContext());
-        dataHandler.open();
-        dataHandler.insertCompleteDailyMeasurement(dailyMeasurementDataObject.getPulse(),
-                dailyMeasurementDataObject.getOxygen(),
-                dailyMeasurementDataObject.getFev1(),
-                dailyMeasurementDataObject.getTemperature(),
-                dailyMeasurementDataObject.getQuestion1(),
-                dailyMeasurementDataObject.getQuestion2(),
-                dailyMeasurementDataObject.getQuestion3());
-        dataHandler.close();
-        */
-    }
-
 
     /* Setters for  data */
     @Override

@@ -34,7 +34,7 @@ import lecho.lib.hellocharts.view.LineChartView;
 /**
  * Created by oscarandersen on 15/10/14.
  */
-public class CitizentHistoryFragment extends Fragment implements View.OnClickListener {
+public class Old extends Fragment implements View.OnClickListener {
 
     DashboardNavigationFragmentCommunication comm;
     List<PointValue> values = new ArrayList<PointValue>();
@@ -43,10 +43,11 @@ public class CitizentHistoryFragment extends Fragment implements View.OnClickLis
     ColumnChartView chartBottom;
     private LineChartView chartTop;
     private LineChartData lineData;
-    public final static String[] months = new String[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
-            "Sep", "Oct", "Nov", "Dec", };
+    public final static String[] months = new String[]{"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug",
+            "Sep", "Oct", "Nov", "Dec",};
 
-    public final static String[] days = new String[] { "Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun", };
+    public final static String[] days = new String[]{"Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun",};
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.history, container, false);
@@ -67,9 +68,6 @@ public class CitizentHistoryFragment extends Fragment implements View.OnClickLis
     }
 
     private void setColumnChart() {
-
-
-
         ColumnChartData columnData;
 
         int numSubcolumns = 1;
@@ -147,7 +145,6 @@ public class CitizentHistoryFragment extends Fragment implements View.OnClickLis
     }
 
 
-
     @Override
     public void onClick(View view) {
 
@@ -170,37 +167,3 @@ public class CitizentHistoryFragment extends Fragment implements View.OnClickLis
     }
 }
 
-/*
-*
-* private void setLineChart() {
-        DailyMeasurementDatabaseHandler databaseHandler = new DailyMeasurementDatabaseHandler(getActivity().getApplicationContext());
-        databaseHandler.open();
-        Cursor cursor = databaseHandler.returnData();
-        int a = 0;
-        Random rand = new Random();
-
-        while (cursor.moveToNext()) {
-            System.out.println("Række: " + a + " Oxygen: " + cursor.getInt(0) + " Pulse: " + cursor.getInt(1));
-            values.add(new PointValue(a, rand.nextInt(50) + 1));
-            values_two.add(new PointValue(a, cursor.getInt(1)));
-            a++;
-        }
-
-        databaseHandler.close();
-        //create the line
-        Line line = new Line(values).setColor(Color.WHITE).setCubic(true);
-        Line linetwo = new Line(values_two).setColor(Color.GREEN).setCubic(false);
-        List<Line> lines = new ArrayList<Line>();
-        lines.add(line);
-        //lines.add(linetwo);
-
-        LineChartData data = new LineChartData();
-        data.setLines(lines);
-
-
-        LineChartView chart = (LineChartView) getActivity().findViewById(R.id.history_lineChart);
-        chart.setLineChartData(data);
-        chart.setValueTouchEnabled(true);
-
-    }
-* */

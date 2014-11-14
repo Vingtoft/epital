@@ -1,5 +1,10 @@
 package com.example.epital.tablettestapplication.dashboard.DailyMeasurement;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * Created by oscarandersen on 13/10/14.
  */
@@ -10,6 +15,10 @@ public class DailyMeasurementDataObject {
     boolean question1, question2, question3;
 
     //TODO: Get timestamp, weather, location, device_id and more.
+
+    public Date getTimestamp() {
+        return  Calendar.getInstance().getTime();
+    }
 
     public void setPulse(int pulse) {
         this.pulse = pulse;

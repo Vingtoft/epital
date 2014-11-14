@@ -13,7 +13,7 @@ import com.example.epital.tablettestapplication.R;
  * Created by oscarandersen on 03/10/14.
  */
 public class DashboardNavigationFragment extends Fragment implements View.OnClickListener {
-    Button button1, button2, button3, button4, button5, button6;
+    Button button1, button2, button3, button4, button5, button6, button7;
     DashboardNavigationFragmentCommunication comm;
 
 
@@ -42,6 +42,8 @@ public class DashboardNavigationFragment extends Fragment implements View.OnClic
         button5.setOnClickListener(this);
         button6 = (Button) getActivity().findViewById(R.id.dashboard_navigation_btn6);
         button6.setOnClickListener(this);
+        button7 = (Button) getActivity().findViewById(R.id.dashboard_navigation_btn7);
+        button7.setOnClickListener(this);
     }
 
     @Override
@@ -58,6 +60,8 @@ public class DashboardNavigationFragment extends Fragment implements View.OnClic
             comm.menuSelected(5);
         } else if (button == button6) {
             comm.menuSelected(6);
+        } else if (button == button7) {
+            comm.menuSelected(7);
         }
     }
 }

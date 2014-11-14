@@ -5,7 +5,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:layout_marginTop="101dp"
-    android:background="#0ff">
+    android:background="#fff">
 
     <lecho.lib.hellocharts.view.LineChartView
         android:id="@+id/history_lineChart"
