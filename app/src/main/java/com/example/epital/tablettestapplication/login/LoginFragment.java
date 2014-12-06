@@ -14,17 +14,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.epital.tablettestapplication.R;
-
-import java.util.*;
+import com.example.epital.tablettestapplication.database.LogInDatabaseHandler;
 
 public class LoginFragment extends Fragment implements View.OnClickListener {
     ImageButton knap1, knap2, knap3, knap4, knap5, knap6, knap7, knap8, knap9, knap0;
     ImageView image_password1, image_password2, image_password3, image_password4;
     TextView kode1, kode2, kode3, kode4;
-    FragmentCommunication comm;
+    LoginFragmentCommunication comm;
     Animation shake;
     int input_count = 0;
-    int input_data[] = new int[]{-1, -1, -1, -1};
+    String input_data;
+    LogInDatabaseHandler dbHandler;
+
     int password[] = new int[]{2, 5, 8, 0};
 
     @Override
@@ -39,10 +40,12 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
          * og undgår derfor en Null Pointer Exception */
         super.onActivityCreated(savedInstanceType);
         init();
-        comm = (FragmentCommunication) getActivity();
+        comm = (LoginFragmentCommunication) getActivity();
     }
 
     private void init() {
+        System.out.println("Hejsa");
+        dbHandler = new LogInDatabaseHandler(getActivity());
         shake = AnimationUtils.loadAnimation(getActivity(), R.anim.shake_password);
         image_password1 = (ImageView) getActivity().findViewById(R.id.kode_image1);
         image_password2 = (ImageView) getActivity().findViewById(R.id.kode_image2);
@@ -77,59 +80,59 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
     @Override
     public void onClick(View button) {
         if (button == knap1) {
-            calculate_input(1);
+            calculate_input("1");
         } else if (button == knap2) {
-            calculate_input(2);
+            calculate_input("2");
         } else if (button == knap3) {
-            calculate_input(3);
+            calculate_input("3");
         } else if (button == knap4) {
-            calculate_input(4);
+            calculate_input("4");
         } else if (button == knap5) {
-            calculate_input(5);
+            calculate_input("5");
         } else if (button == knap6) {
-            calculate_input(6);
+            calculate_input("6");
         } else if (button == knap7) {
-            calculate_input(7);
+            calculate_input("7");
         } else if (button == knap8) {
-            calculate_input(8);
+            calculate_input("8");
         } else if (button == knap9) {
-            calculate_input(9);
+            calculate_input("9");
         } else if (button == knap0) {
-            calculate_input(0);
+            calculate_input("0");
         }
     }
 
-    private void calculate_input(int button_value) {
+    private void calculate_input(String button_value) {
         if (input_count == 0) {
             kode1.setText("*");
-            input_data[0] = button_value;
-            System.out.println("Er hos 1");
+            input_data = button_value;
         } else if (input_count == 1) {
             kode2.setText("*");
-            input_data[1] = button_value;
-            System.out.println("Er hos 2");
+            input_data += button_value;
         } else if (input_count == 2) {
             kode3.setText("*");
-            input_data[2] = button_value;
-            System.out.println("Er hos 3");
+            input_data += button_value;
         } else if (input_count == 3) {
             kode4.setText("*");
-            input_data[3] = button_value;
-            System.out.println("Er hos 4");
+            input_data += button_value;
         }
         input_count++;
+
         if (input_count == 4) {
-            if (Arrays.equals(input_data, password)) {
-                //Proceed to new view / fragment
-                comm.moveToLoadFragment();
-                reset_input();
-            } else {
-                //Reset det hele + lav en lille animation
-                perform_animation();
-                System.out.println("Not a match!!");
-            }
+            matchPasswords(input_data);
         }
     }
+
+    private void matchPasswords(String password) {
+        if (dbHandler.matchPasswords(password)) {
+            //continue to loading screen
+            comm.stateMachine(2);
+        } else {
+            //reset password
+            passwordRejected();
+        }
+    }
+
 
     private void reset_input() {
         kode1.setText("");
@@ -139,7 +142,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
         input_count = 0;
     }
 
-    private void perform_animation() {
+    public void passwordRejected() {
         Vibrator v = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         v.vibrate(300);
         kode1.startAnimation(shake);

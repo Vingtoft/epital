@@ -22,23 +22,24 @@ public class SaveDailyMeasurementToServer{
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
 
-    public static void save(DailyMeasurementDataObject dataObject){
+    public static void save(DailyMeasurementDataObject dataObject, String token){
         Gson gson = new Gson();
         String dataObjectJSON = gson.toJson(dataObject);
         String url = "http://93.167.89.66:8852/daily_measurements/";
         try{
-            post(url, dataObjectJSON);
+            post(url, dataObjectJSON, token);
         } catch (IOException e){
             System.out.println("Error in SaveDailyMeasurements: " + e);
         }
     }
 
-    private static String post(String url, String json) throws IOException {
+    private static String post(String url, String json, String token) throws IOException {
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
                 .url(url)
                 .post(body)
+                .addHeader("Authorization", "Token " + token)
                 .build();
         client.newCall(request).enqueue(new Callback() {
             @Override

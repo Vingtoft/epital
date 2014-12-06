@@ -196,10 +196,8 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
         //get first date
         min_date = realmResults.minDate("time_stamp");
         //get last date
-        /**
-         * Due to a bug in the REALM api, this function does not work.. */
-        //max_date = realmResults.maxDate("time_stamp");
-        max_date = realmResults.get(dm_total - 1).getTime_stamp();
+        max_date = realmResults.maxDate("time_stamp");
+
         dm_days = getDeltaDaysFromDates(max_date, min_date);
         dm_weeks = getDeltaWeeksFromDates(max_date, min_date);
         dm_months = getDeltaMonthsFromDates(max_date, min_date);

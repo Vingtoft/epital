@@ -6,11 +6,11 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
 import android.view.WindowManager;
-
+import com.example.epital.tablettestapplication.ApplicationObject;
 import com.example.epital.tablettestapplication.R;
 import com.example.epital.tablettestapplication.connection.SaveDailyMeasurementToServer;
+import com.example.epital.tablettestapplication.connection.ServerLogIn;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.BeforeYouStart.DailyMeasurementBeforeYouStartFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Complete.DailyMeasurementCompleteFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.LungFunction.DailyMeasurementLungFunctionFragmenCOPD6;
@@ -24,14 +24,10 @@ import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Tempe
 import com.example.epital.tablettestapplication.dashboard.History.CitizenHistoryFragment;
 import com.example.epital.tablettestapplication.database.DailyMeasurementDatabaseHandler;
 import com.example.epital.tablettestapplication.database.RealmDailyMeasurementDataObject;
+import com.example.epital.tablettestapplication.login.LoginFragmentContainerActivity;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
-
-import java.util.Date;
-
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -52,6 +48,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
     DailyMeasurementQuestionFragment dailyMeasurementQuestionFragment;
     DailyMeasurementLungFunctionFragmentSPIROMAGIC dailyMeasurementLungFunctionFragmentSPIROMAGIC;
     DailyMeasurementCompleteFragment dailyMeasurementCompleteFragment;
+    ServerLogIn serverLogIn;
 
     //daily measurement list
     //history
@@ -66,45 +63,62 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
 
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
+    ApplicationObject applicationObject;
+    String auth_token;
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        isLoggedIn();
+        serverLogIn.changeLoggedInStatus("1", auth_token);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        applicationObject.setLogged_in(false);
+        serverLogIn.changeLoggedInStatus("0", auth_token);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        applicationObject = (ApplicationObject) getApplication();
+        // Find out if the user is logged in
+        isLoggedIn();
 
-
+        auth_token = applicationObject.getAuth_token();
         //Keep the screen on
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         //Set activity to full screen
-
         setContentView(R.layout.dashboard_container);
-
         //Initiate the fragments
-        //TODO: Spørgsmål til Jacob: Er det good practice at have alle referencer til objekter her?
         navigationFragment = new DashboardNavigationFragment();
-
         dailyMeasurementListFragment = new DailyMeasurementListFragment();
         dailyMeasurementPulseFragment = new DailyMeasurementPulseFragment();
         dailyMeasurementBeforeYouStartFragment = new DailyMeasurementBeforeYouStartFragment();
         dailyMeasurementLungFunctionFragmenCOPD6 = new DailyMeasurementLungFunctionFragmenCOPD6();
         dailyMeasurementTemperatureFragment = new DailyMeasurementTemperatureFragment();
         dailyMeasurementLungFunctionFragmentSPIROMAGIC = new DailyMeasurementLungFunctionFragmentSPIROMAGIC();
-
+        serverLogIn = new ServerLogIn();
         citizentHistoryFragment = new CitizenHistoryFragment();
-
         //init daily measurement data object
         dailyMeasurementDataObject = new DailyMeasurementDataObject();
-
         fragmentManager = getFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.dashboard_container, navigationFragment, "navigationFragment");
         fragmentTransaction.commit();
 
-        //hide bottom navigation bar
-        /*
-        View decorView = getWindow().getDecorView();
-        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION;
-        decorView.setSystemUiVisibility(uiOptions);*/
+    }
 
+    private void isLoggedIn(){
+        if (!applicationObject.isLoggedIn()) {
+            //user is not logged in. Move to log-in screen.
+            Intent intent = new Intent(this, LoginFragmentContainerActivity.class);
+            startActivity(intent);
+        }
     }
 
     private void removeActiveFragments() {
@@ -190,12 +204,25 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 fragmentTransaction.commit();
                 break;
             case 6:
+                DailyMeasurementDatabaseHandler _databaseHandler = new DailyMeasurementDatabaseHandler(this);
+                dailyMeasurementDataObject = new DailyMeasurementDataObject();
+                dailyMeasurementDataObject.setQuestion1(false);
+                dailyMeasurementDataObject.setQuestion2(false);
+                dailyMeasurementDataObject.setQuestion3(false);
+                dailyMeasurementDataObject.setFev1(4.4);
+                dailyMeasurementDataObject.setOxygen(98);
+                dailyMeasurementDataObject.setPulse(95);
+                dailyMeasurementDataObject.setTemperature(37.4);
+                _databaseHandler.saveDailyMeasurement(dailyMeasurementDataObject);
+                SaveDailyMeasurementToServer.save(dailyMeasurementDataObject, auth_token);
+
                 System.out.println("Indstillinger");
                 removeActiveFragments();
                 removeDailyMeasurementActiveFragments();
                 break;
             case 7:
                 System.out.println("Afslut program");
+                applicationObject.setLogged_in(false);
                 Intent startMain = new Intent(Intent.ACTION_MAIN);
                 startMain.addCategory(Intent.CATEGORY_HOME);
                 startMain.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -287,7 +314,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
                 DailyMeasurementDatabaseHandler databaseHandler = new DailyMeasurementDatabaseHandler(this);
                 databaseHandler.saveDailyMeasurement(dailyMeasurementDataObject);
                 //Upload data to server
-                SaveDailyMeasurementToServer.save(dailyMeasurementDataObject);
+                SaveDailyMeasurementToServer.save(dailyMeasurementDataObject, auth_token);
                 dailyMeasurementCompleteFragment = new DailyMeasurementCompleteFragment(dailyMeasurementDataObject.getPulse(),
                         dailyMeasurementDataObject.getOxygen(),
                         dailyMeasurementDataObject.getFev1(),

@@ -14,17 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import com.example.epital.tablettestapplication.R;
 import com.example.epital.tablettestapplication.bluetooth.BluetoothConnectionAgent;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.DailyMeasurementFragmentCommunication;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
 
 /**
  * Created by oscarandersen on 17/10/14.
  */
+
 public class DailyMeasurementLungFunctionFragmentCOPD6 extends Fragment implements View.OnClickListener {
 
     private static final int REQUEST_ENABLE_BT = 1;
@@ -195,7 +193,7 @@ public class DailyMeasurementLungFunctionFragmentCOPD6 extends Fragment implemen
     }
 
 
-    //TODO: Sjuskekode, omstruktur!
+    //TODO: Sjuskekode, omstrukturér!
     int a = 0;
     byte[] container = new byte[1];
     boolean start_flag = false;
@@ -327,7 +325,7 @@ public class DailyMeasurementLungFunctionFragmentCOPD6 extends Fragment implemen
     }
 
     private void devicePowersDown() {
-        System.out.println("SHOTDOWN!");
+        System.out.println("SHUTDOWN!");
     }
 
     @Override

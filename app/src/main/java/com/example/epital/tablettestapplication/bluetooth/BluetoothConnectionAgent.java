@@ -25,18 +25,18 @@ public class BluetoothConnectionAgent {
     String device_name;
     BluetoothDevice bluetoothDevice;
 
-    public BluetoothConnectionAgent(Handler mHandler, String device_name){
+    public BluetoothConnectionAgent(Handler mHandler, String device_name) {
         //get all info
         this.mHandler = mHandler;
         this.device_name = device_name;
     }
 
-    public void connect(BluetoothDevice device){
+    public void connect(BluetoothDevice device) {
         connectThread = new ConnectThread(device);
         connectThread.start();
     }
 
-    public void close(){
+    public void close() {
         connectThread.cancel();
         connectedThread.cancel();
     }
@@ -66,7 +66,7 @@ public class BluetoothConnectionAgent {
         public void run() {
             // Cancel discovery because it will slow down the connection
             bluetoothAdapter.cancelDiscovery();
-            while (failed_rate < 20) {
+            while (true) {
                 try {
                     // Connect the device through the socket. This will block
                     // until it succeeds or throws an exception
@@ -83,23 +83,19 @@ public class BluetoothConnectionAgent {
                     }
                 }
             }
-            if (failed_rate < 20) {
-                //change the main thread state machine
-                Message message = mHandler.obtainMessage(2);
-                message.sendToTarget();
-
-                // Do work to manage the connection (in a separate thread)
-                connectedThread = new ConnectedThread(mmSocket);
-                connectedThread.start();
-                connectedThread.write();
-            } else {
-                //TODO: Failed to connect!
-                try {
-                    mmSocket.close();
-                } catch (IOException closeException) {
-                }
+            //change the main thread state machine
+            Message message = mHandler.obtainMessage(2);
+            message.sendToTarget();
+            // Do work to manage the connection (in a separate thread)
+            connectedThread = new ConnectedThread(mmSocket);
+            connectedThread.start();
+            connectedThread.write();
+            try {
+                mmSocket.close();
+            } catch (IOException closeException) {
             }
         }
+
         /**
          * Will cancel an in-progress connection, and close the socket
          */
@@ -131,6 +127,7 @@ public class BluetoothConnectionAgent {
             mmInStream = tmpIn;
             mmOutStream = tmpOut;
         }
+
         public void run() {
             byte[] buffer = new byte[20];  // buffer store for the stream
             int bytes; // bytes returned from read()
@@ -143,7 +140,7 @@ public class BluetoothConnectionAgent {
                     bytes = mmInStream.read(buffer);
                     byte[] new_buffer = new byte[bytes];
 
-                    for (int i = 0; i < bytes; i++){
+                    for (int i = 0; i < bytes; i++) {
                         new_buffer[i] = buffer[i];
                     }
 
@@ -156,6 +153,7 @@ public class BluetoothConnectionAgent {
                 }
             }
         }
+
         /* Call this from the main activity to send data to the remote device */
         public void write() {
 

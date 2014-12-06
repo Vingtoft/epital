@@ -273,13 +273,14 @@ public class DailyMeasurementPulseFragment extends Fragment {
             // because mmSocket is final
             BluetoothSocket tmp = null;
             mmDevice = device;
+            System.out.println("Device er " + device);
             // Get a BluetoothSocket to connect with the given BluetoothDevice
             try {
                 // MY_UUID is the app's UUID string, also used by the server code
                 //TODO: If device Android version is 4.0.4 or 4.0.3 do this:
-                tmp = device.createInsecureRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                //tmp = device.createInsecureRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
                 //TODO: Else: Do this:
-                //tmp = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                tmp = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
             } catch (IOException e) {
                 System.out.println("Noget gik galt i ConnectThread " + e);
             }
@@ -289,16 +290,15 @@ public class DailyMeasurementPulseFragment extends Fragment {
         public void run() {
             // Cancel discovery because it will slow down the connection
             bluetoothAdapter.cancelDiscovery();
+
             while (failed_rate < 20) {
                 try {
                     // Connect the device through the socket. This will block
                     // until it succeeds or throws an exception
-                    System.out.println("Hvorfor gør den det?");
                     mmSocket.connect();
-                    System.out.println("Argh!");
                     break;
                 } catch (IOException connectException) {
-                    System.out.println("buuuh" + failed_rate + connectException);
+                    System.out.println("" + failed_rate + connectException);
                     failed_rate++;
                     try {
                         Thread.sleep(1500);

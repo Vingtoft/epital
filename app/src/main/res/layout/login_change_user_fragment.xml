@@ -7,24 +7,54 @@
 
 
     <TextView
+        android:id="@+id/createUserText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Skift bruger:"
-        android:id="@+id/pulse_text"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="130dp" />
+        android:layout_marginTop="70dp"
+        android:text="Log ind"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <EditText
+    <TextView
+        android:id="@+id/loginErrorMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="textEmailAddress"
-        android:ems="10"
-        android:id="@+id/editText"
-        android:layout_below="@+id/pulse_text"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="110dp"
+        android:textColor="#ff0000"
+        android:textSize="15dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="75dp"
-        android:hint="E-mail adresse"/>
+        android:text="" />
+
+    <EditText
+        android:id="@+id/createUserUsername"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createUserText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:ems="10"
+        android:hint="CPR-nummer"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/createUserPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/createUserText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="110dp"
+        android:ems="10"
+        android:hint="Kodeord"
+        android:inputType="numberPassword" />
+
+    <Button
+        android:id="@+id/loginButton"
+        android:layout_width="140dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="270dp"
+        android:text="Log ind!" />
 
 </RelativeLayout>

@@ -10,8 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.example.epital.tablettestapplication.ApplicationObject;
 import com.example.epital.tablettestapplication.R;
 import com.example.epital.tablettestapplication.dashboard.DashboardFragmentContainerActivity;
+import com.example.epital.tablettestapplication.database.LogInDatabaseHandler;
 
 
 /**
@@ -40,6 +42,11 @@ public class LoadingFragment extends Fragment {
         pulseAnimation.start();
         countDown();
         timerCount.start();
+
+        LogInDatabaseHandler logInDatabaseHandler = new LogInDatabaseHandler(getActivity());
+        ApplicationObject applicationObject = (ApplicationObject) getActivity().getApplication();
+        applicationObject.setAuth_token(logInDatabaseHandler.getToken());
+
     }
 
     private void countDown() {

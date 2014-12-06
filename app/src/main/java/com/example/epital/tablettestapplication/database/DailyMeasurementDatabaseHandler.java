@@ -27,6 +27,8 @@ public class DailyMeasurementDatabaseHandler {
         this.realm = Realm.getInstance(activity, database_name);
     }
 
+
+
     public void saveDailyMeasurement(DailyMeasurementDataObject dailyMeasurementDataObject) {
 
         realm.beginTransaction();
