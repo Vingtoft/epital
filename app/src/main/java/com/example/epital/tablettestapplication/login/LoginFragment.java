@@ -79,6 +79,7 @@ public class LoginFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View button) {
+        System.out.println("Hvad sker der heer?!");
         if (button == knap1) {
             calculate_input("1");
         } else if (button == knap2) {

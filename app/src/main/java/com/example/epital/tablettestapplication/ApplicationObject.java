@@ -7,7 +7,16 @@ import android.app.Application;
  */
 public class ApplicationObject extends Application{
     String auth_token;
-    boolean logged_in;
+    boolean logged_in, synced_with_server;
+
+    public boolean isSynced_with_server() {
+        return synced_with_server;
+    }
+
+    public void setSynced_with_server(boolean synced_with_server) {
+        this.synced_with_server = synced_with_server;
+    }
+
     public String getAuth_token() {
         return auth_token;
     }

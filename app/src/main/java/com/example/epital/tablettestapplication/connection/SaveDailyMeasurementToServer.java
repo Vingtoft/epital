@@ -21,8 +21,19 @@ public class SaveDailyMeasurementToServer{
 
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
 
+    Callback okHttpCallback;
 
-    public static void save(DailyMeasurementDataObject dataObject, String token){
+    public SaveDailyMeasurementToServer(){
+
+    }
+
+    public SaveDailyMeasurementToServer(Callback okHttpCallback){
+        this.okHttpCallback = okHttpCallback;
+    }
+
+
+
+    public void save(DailyMeasurementDataObject dataObject, String token){
         Gson gson = new Gson();
         String dataObjectJSON = gson.toJson(dataObject);
         String url = "http://93.167.89.66:8852/daily_measurements/";
@@ -33,7 +44,7 @@ public class SaveDailyMeasurementToServer{
         }
     }
 
-    private static String post(String url, String json, String token) throws IOException {
+    private void post(String url, String json, String token) throws IOException {
         OkHttpClient client = new OkHttpClient();
         RequestBody body = RequestBody.create(JSON, json);
         Request request = new Request.Builder()
@@ -41,17 +52,6 @@ public class SaveDailyMeasurementToServer{
                 .post(body)
                 .addHeader("Authorization", "Token " + token)
                 .build();
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Request request, IOException e) {
-                System.out.println("Failt! " + e);
-            }
-            @Override
-            public void onResponse(Response response) throws IOException {
-                System.out.println("Virker! Reponse: " + response);
-            }
-        });
-        return "hejsa";
+        client.newCall(request).enqueue(okHttpCallback);
     }
-
 }

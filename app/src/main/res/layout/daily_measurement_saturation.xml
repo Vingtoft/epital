@@ -4,10 +4,10 @@
     android:id="@+id/daily_measurement_saturation"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
+    android:layout_centerHorizontal="true"
     android:layout_marginLeft="431dp"
     android:layout_marginTop="101dp"
-    android:background="#0ff"
-    android:layout_centerHorizontal="true">
+    android:background="#0ff">
 
     <TextView
         android:id="@+id/textView2"
@@ -27,8 +27,8 @@
         android:id="@+id/pulse_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="220dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="220dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:paddingLeft="20dp"
@@ -41,7 +41,9 @@
         android:id="@+id/pulse"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/pulse_text"
         android:layout_toEndOf="@+id/oxygenlevel_text"
+        android:layout_toRightOf="@+id/pulse_text"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:maxLength="3"
@@ -49,16 +51,14 @@
         android:paddingRight="20dp"
         android:text="1"
         android:textColor="#000000"
-        android:textSize="35dp"
-        android:layout_alignTop="@+id/pulse_text"
-        android:layout_toRightOf="@+id/pulse_text" />
+        android:textSize="35dp" />
 
     <TextView
         android:id="@+id/oxygenlevel_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="290dp"
         android:layout_centerHorizontal="true"
+        android:layout_marginTop="290dp"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:paddingLeft="20dp"
@@ -71,6 +71,8 @@
         android:id="@+id/oxygen_level"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/oxygenlevel_text"
+        android:layout_toRightOf="@+id/oxygenlevel_text"
         android:fontFamily="sans-serif"
         android:gravity="center"
         android:maxLength="3"
@@ -78,18 +80,16 @@
         android:paddingRight="20dp"
         android:text="2"
         android:textColor="#000000"
-        android:textSize="35dp"
-        android:layout_toRightOf="@+id/oxygenlevel_text"
-        android:layout_alignTop="@+id/oxygenlevel_text"/>
+        android:textSize="35dp" />
 
     <TextView
         android:id="@+id/saturation_count_down"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Færdig om: "
-        android:textSize="35dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="99dp" />
+        android:layout_marginBottom="99dp"
+        android:text="Færdig om: "
+        android:textSize="35dp" />
 
 </RelativeLayout>

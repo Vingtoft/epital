@@ -27,7 +27,7 @@ public class DailyMeasurementQuestionFragment extends Fragment implements View.O
     Button buttonYes, buttonNo;
     DailyMeasurementFragmentCommunication comm;
 
-    public DailyMeasurementQuestionFragment(int question_id, int question_number) {
+    public void setQuestion(int question_id, int question_number) {
         this.question_id = question_id;
         this.question_number = question_number;
     }

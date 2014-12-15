@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<animation-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:oneshot="false">
+
+    <item
+        android:drawable="@drawable/turn_one_nonin_0"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_1"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_2"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_3"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_4"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_5"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_6"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_7"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_8"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_9"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_10"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_11"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_12"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_13"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_14"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_15"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_16"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_17"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_18"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_19"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_20"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_21"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_22"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_23"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_24"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_25"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_26"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_27"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_28"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_29"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_30"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_31"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_32"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_33"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_34"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_35"
+        android:duration="50" />
+    <item
+        android:drawable="@drawable/turn_one_nonin_36"
+        android:duration="50" />
+
+</animation-list>

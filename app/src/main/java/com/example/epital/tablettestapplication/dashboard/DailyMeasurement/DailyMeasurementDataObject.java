@@ -1,7 +1,5 @@
 package com.example.epital.tablettestapplication.dashboard.DailyMeasurement;
 
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -10,11 +8,44 @@ import java.util.Date;
  */
 
 public class DailyMeasurementDataObject {
-    int pulse, oxygen;
+    int pulse, oxygen, id, client_id;
     double temperature, fev1;
     boolean question1, question2, question3;
+    String date_created_on_client, date_saved_on_server;
 
     //TODO: Get timestamp, weather, location, device_id and more.
+
+    public String getDate_saved_on_server() {
+        return date_saved_on_server;
+    }
+
+    public void setDate_saved_on_server(String date_saved_on_server) {
+        this.date_saved_on_server = date_saved_on_server;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(int client_id) {
+        this.client_id = client_id;
+    }
+
+    public String getDate_created_on_client() {
+        return date_created_on_client;
+    }
+
+    public void setDate_created_on_client(String date_created_on_client) {
+        this.date_created_on_client = date_created_on_client;
+    }
 
     public Date getTimestamp() {
         return  Calendar.getInstance().getTime();

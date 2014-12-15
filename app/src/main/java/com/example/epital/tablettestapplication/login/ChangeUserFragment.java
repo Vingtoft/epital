@@ -49,6 +49,8 @@ public class ChangeUserFragment extends Fragment implements View.OnClickListener
 
     private void init() {
         comm = (LoginFragmentCommunication) getActivity();
+        login = (Button) getActivity().findViewById(R.id.loginButton);
+        login.setOnClickListener(this);
         logInDatabaseHandler = new LogInDatabaseHandler(getActivity());
         errorMessage = (TextView) getActivity().findViewById(R.id.loginErrorMessage);
         header = (TextView) getActivity().findViewById(R.id.createUserText);
@@ -82,11 +84,10 @@ public class ChangeUserFragment extends Fragment implements View.OnClickListener
     }
 
     private boolean logIn() {
-        login = (Button) getActivity().findViewById(R.id.loginButton);
-        login.setOnClickListener(this);
+
         String brugernavn = username.getText().toString();
         String kodeord = password.getText().toString();
-        getSecurityTokenFromServer.getSecurityToken("2311892935", "1234567890");
+        getSecurityTokenFromServer.getSecurityToken(brugernavn, kodeord);
         return true;
     }
 
@@ -124,6 +125,7 @@ public class ChangeUserFragment extends Fragment implements View.OnClickListener
                 message.sendToTarget();
 
             } else {
+                System.out.println("Svar fra server: " + response.body().string());
                 //Send status indicator to main thread
                 Message message = mHandler.obtainMessage(2);
                 message.sendToTarget();

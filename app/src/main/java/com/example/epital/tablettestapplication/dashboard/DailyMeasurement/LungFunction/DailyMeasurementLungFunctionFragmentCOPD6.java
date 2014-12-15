@@ -157,7 +157,7 @@ public class DailyMeasurementLungFunctionFragmentCOPD6 extends Fragment implemen
                 break;
             case 2:
                 currentLayout.removeAllViews();
-                currentLayout.addView(View.inflate(getActivity().getBaseContext(), R.layout.daily_measurement_init_saturation, null), params);
+                currentLayout.addView(View.inflate(getActivity().getBaseContext(), R.layout.daily_measurement_saturation, null), params);
                 isBluetoothOn = (TextView) getActivity().findViewById(R.id.daily_measurement_init_bluetooth_enabled_validation);
                 header = (TextView) getActivity().findViewById(R.id.daily_measurement_init_sautration_header);
                 header.setText("Vi gør klar til måling af FEV1");

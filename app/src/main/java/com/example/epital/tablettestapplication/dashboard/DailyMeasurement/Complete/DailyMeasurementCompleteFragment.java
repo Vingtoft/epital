@@ -25,7 +25,7 @@ public class DailyMeasurementCompleteFragment extends Fragment implements View.O
     TextView text_pulse, text_oxygen, text_fev1, text_temp, text_q1, text_q2, text_q3;
     Button continue_button;
 
-    public DailyMeasurementCompleteFragment(int pulse, int oxygen, double fev1, double temp, boolean q1, boolean q2, boolean q3) {
+    public void set_values(int pulse, int oxygen, double fev1, double temp, boolean q1, boolean q2, boolean q3) {
         this.pulse = pulse;
         this.oxygen = oxygen;
         this.fev1 = fev1;
@@ -34,6 +34,11 @@ public class DailyMeasurementCompleteFragment extends Fragment implements View.O
         this.q2 = q2;
         this.q3 = q3;
     }
+
+    public DailyMeasurementCompleteFragment() {
+
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

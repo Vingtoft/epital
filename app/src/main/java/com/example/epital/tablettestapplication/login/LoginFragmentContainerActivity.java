@@ -31,11 +31,8 @@ public class LoginFragmentContainerActivity extends Activity implements LoginFra
         loadingFragment = new LoadingFragment();
         changeUserFragment = new ChangeUserFragment();
         createShortPassword = new CreateShortPassword();
-
         //dbHandler.deletePasswordAndToken();
-
         applicationObject = (ApplicationObject) getApplication();
-
         stateMachine(1);
 
     }

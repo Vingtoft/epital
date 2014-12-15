@@ -19,13 +19,41 @@ import io.realm.annotations.RealmClass;
 
 @RealmClass
 public class RealmDailyMeasurementDataObject extends RealmObject{
-    private Date time_stamp;
-    private int pulse, oxygen;
+    private Date date_created, date_synced;
+    private int pulse, oxygen, client_id, server_id;
     private double fev1, temperature;
     private boolean question1, question2, question3;
 
-    public Date getTime_stamp() {
-        return time_stamp;
+    public int getClient_id() {
+        return client_id;
+    }
+
+    public void setClient_id(int client_id) {
+        this.client_id = client_id;
+    }
+
+    public int getServer_id() {
+        return server_id;
+    }
+
+    public void setServer_id(int server_id) {
+        this.server_id = server_id;
+    }
+
+    public Date getDate_created() {
+        return date_created;
+    }
+
+    public void setDate_created(Date date_created) {
+        this.date_created = date_created;
+    }
+
+    public Date getDate_synced() {
+        return date_synced;
+    }
+
+    public void setDate_synced(Date date_synced) {
+        this.date_synced = date_synced;
     }
 
     public int getPulse() {
@@ -57,12 +85,7 @@ public class RealmDailyMeasurementDataObject extends RealmObject{
     }
 
     public void setQuestion1(boolean question1) {
-
         this.question1 = question1;
-    }
-
-    public void setTime_stamp(Date time_stamp) {
-        this.time_stamp = time_stamp;
     }
 
     public void setPulse(int pulse) {
@@ -88,6 +111,5 @@ public class RealmDailyMeasurementDataObject extends RealmObject{
     public void setQuestion3(boolean question3) {
         this.question3 = question3;
     }
-
 
 }

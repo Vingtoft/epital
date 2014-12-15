@@ -19,14 +19,12 @@ import org.joda.time.Months;
 import org.joda.time.Weeks;
 import org.joda.time.Years;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
-import lecho.lib.hellocharts.gesture.ZoomType;
 import lecho.lib.hellocharts.model.Axis;
 import lecho.lib.hellocharts.model.AxisValue;
 import lecho.lib.hellocharts.model.Column;
@@ -49,7 +47,6 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
     DashboardNavigationFragmentCommunication comm;
     //creating a two dimensional arraylist containing the interval (length of first date) and the dates
     List<List<Date>> listOfDates;
-
     //The Array containing the actual data
     private RealmResults<RealmDailyMeasurementDataObject> realmResults;
     private RealmQuery<RealmDailyMeasurementDataObject> realmQuery;
@@ -70,8 +67,8 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
     @Override
     public void onActivityCreated(Bundle savedInstanceType) {
         super.onActivityCreated(savedInstanceType);
-        init();
         comm = (DashboardNavigationFragmentCommunication) getActivity();
+        init();
     }
 
     private void init() {
@@ -85,6 +82,106 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
         calculateDates();
         setColumnChart();
         initTopGraph();
+        printResults();
+    }
+
+    private void calculateDates() {
+        //get amount of daily measurements
+        dm_total = realmResults.size();
+        //get first date
+        min_date = realmResults.minDate("time_stamp");
+        //get last date
+        max_date = realmResults.maxDate("time_stamp");
+        System.out.println("Min date: " + min_date.toString() + " max date: " + max_date.toString());
+
+
+        dm_days = getDeltaDaysFromDates(max_date, min_date);
+        dm_weeks = getDeltaWeeksFromDates(max_date, min_date);
+        dm_months = getDeltaMonthsFromDates(max_date, min_date);
+        dm_years = getDeltaYearsFromDates(max_date, min_date);
+
+        if (dm_years > 5) {
+            fillArrayRelativeToWeeks();
+            System.out.println("Fylder i forhold til uger");
+        } else if (dm_months > 5) {
+            System.out.println("Fylder i forhold til uger");
+            fillArrayRelativeToWeeks();
+        } else if (dm_weeks > 5) {
+            System.out.println("Fylder i forhold til uger");
+            fillArrayRelativeToWeeks();
+        } else {
+            System.out.println("Fylder i forhold til dage");
+            fillArrayRelativeToDays();
+        }
+
+        System.out.println("Size::" + dm_total);
+        System.out.println("latest date: " + max_date.toString());
+        System.out.println("earlist date: " + min_date.toString());
+        System.out.println("Total days: " + dm_days + " weeks: " + dm_weeks + " months: " + dm_months + " years: " + dm_years);
+    }
+
+    private int getDeltaDaysFromDates(Date date1, Date date2) {
+
+        DateTime dateTime1 = new DateTime(date1);
+        DateTime dateTime2 = new DateTime(date2);
+        return Math.abs(Days.daysBetween(dateTime1, dateTime2).getDays()) + 1;
+    }
+
+    private int getDeltaWeeksFromDates(Date date1, Date date2) {
+        DateTime dateTime1 = new DateTime(date1);
+        DateTime dateTime2 = new DateTime(date2);
+        return Math.abs(Weeks.weeksBetween(dateTime1, dateTime2).getWeeks());
+    }
+
+    private int getDeltaMonthsFromDates(Date date1, Date date2) {
+        DateTime dateTime1 = new DateTime(date1);
+        DateTime dateTime2 = new DateTime(date2);
+        return Math.abs(Months.monthsBetween(dateTime1, dateTime2).getMonths());
+    }
+
+    private int getDeltaYearsFromDates(Date date1, Date date2) {
+        DateTime dateTime1 = new DateTime(date1);
+        DateTime dateTime2 = new DateTime(date2);
+        return Math.abs(Years.yearsBetween(dateTime1, dateTime2).getYears());
+    }
+
+    private void fillArrayRelativeToDays() {
+        //start date
+        listOfDates = new ArrayList<List<Date>>();
+        DateTime start_date = new DateTime(min_date);
+        for (int a = 0; a < dm_days; a++) {
+            DateTime iterative_date = start_date.plusDays(a);
+            List<Date> dates = new ArrayList<Date>();
+            dates.add(iterative_date.toDate());
+            dates.add(iterative_date.toDate()); //why add two times? Because I need a start and end date.
+            listOfDates.add(a, dates);
+        }
+    }
+
+    private void fillArrayRelativeToWeeks() {
+        //start date
+        listOfDates = new ArrayList<List<Date>>();
+        DateTime reference_date = new DateTime(min_date);
+        for (int a = 0; a < dm_weeks; a++) {
+            //get start date of week
+            DateTime week_start = reference_date.withDayOfWeek(DateTimeConstants.MONDAY).withTimeAtStartOfDay();
+            //get end date of week
+            DateTime week_end = reference_date.withDayOfWeek(DateTimeConstants.SUNDAY).withTimeAtStartOfDay();
+            //save the DateTime objects in the array
+            List<Date> dates = new ArrayList<Date>();
+            dates.add(week_start.toDate());
+            dates.add(week_end.toDate());
+            listOfDates.add(a, dates);
+            //add 7 days to reference_date
+            reference_date = reference_date.plusDays(7);
+            //printing for test
+        }
+    }
+
+    private int getTotalMeasurementsFromIndex(int index) {
+        Date date1 = listOfDates.get(index).get(0);
+        Date date2 = listOfDates.get(index).get(1);
+        return databaseHandler.getTotalMeasurementsFromDates(date1, date2);
     }
 
     private void setColumnChart() {
@@ -124,35 +221,17 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
         chartTop.setCurrentViewport(viewport, true);
     }
 
-    private void changeViewport(int x_min, int y_max, int x_max, int y_min) {
-        Viewport viewport = chartTop.getCurrentViewport();
-        viewport.contains(x_min, y_max, x_max, y_min);
-        //chartTop.setMaximumViewport(viewport);
-        //chartTop.setCurrentViewport(viewport, true);
-    }
+    /* Hertil for init */
 
-    private void deleteLineData() {
-
-    }
-
-    private void editLineData(List<PointValue> pointValues, List<AxisValue> axisValues, int color) {
-        chartTop.cancelDataAnimation();
-        Line line = lineData.getLines().get(0);
-        line.setColor(color);
-        //line.setValues(pointValues);
-        for (int i = 0; i < pointValues.size(); i++) {
-            try{
-                line.getValues().get(i).setTarget(i, pointValues.get(i).getY());
-            } catch (IndexOutOfBoundsException e) {
-                line.getValues().add(i, pointValues.get(i));
-            }
-        }
-        //lines.add(line);
-        changeViewport(0, 42, pointValues.size() - 1, 35);
-        lineData.setAxisXBottom(new Axis(axisValues));
-        lineData.setAxisYLeft(new Axis().setHasLines(false).setMaxLabelChars(3));
-        chartTop.setLineChartData(lineData);
-        chartTop.startDataAnimation(1500);
+    private void getDataForInterval(int index) {
+        //TODO: at the moment we only show temperature. This will be corrected later.
+        Date start_date = listOfDates.get(index).get(0);
+        Date end_date = listOfDates.get(index).get(1);
+        //get the data
+        ArrayList<Double> resultList = databaseHandler.getTemperatureFromDates(start_date, end_date);
+        List<PointValue> pointValues = getPointValuesFromDoubleArray(resultList);
+        List<AxisValue> axisValues = getAxisValuesFromPointArray(pointValues);
+        editLineData(pointValues, axisValues, Utils.COLOR_GREEN);
     }
 
     private List<AxisValue> getAxisValuesFromPointArray(List<PointValue> dataInput) {
@@ -173,112 +252,28 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
         return pointValues;
     }
 
-    private void getDataForInterval(int index) {
-        //TODO: at the moment we show temperature. This will be corrected later.
-        Date start_date = listOfDates.get(index).get(0);
-        Date end_date = listOfDates.get(index).get(1);
-        //get the data
-        ArrayList<Double> resultList = databaseHandler.getTemperatureFromDates(start_date, end_date);
-        List<PointValue> pointValues = getPointValuesFromDoubleArray(resultList);
-        List<AxisValue> axisValues = getAxisValuesFromPointArray(pointValues);
-        editLineData(pointValues, axisValues, Utils.COLOR_GREEN);
+    private void editLineData(List<PointValue> pointValues, List<AxisValue> axisValues, int color) {
+        chartTop.cancelDataAnimation();
+        // Delete old line object
+        //Line line = lineData.getLines().get(0);
+        Line line = new Line(pointValues);
+        line.setColor(color);
+
+        lineData.getLines().remove(0);
+        lineData.getLines().add(line);
+
+        changeViewport(0, 42, pointValues.size() - 1, 35);
+        lineData.setAxisXBottom(new Axis(axisValues));
+        lineData.setAxisYLeft(new Axis().setHasLines(false).setMaxLabelChars(3));
+        chartTop.setLineChartData(lineData);
+        chartTop.startDataAnimation(1500);
     }
 
-    private int getTotalMeasurementsFromIndex(int index) {
-        Date date1 = listOfDates.get(index).get(0);
-        Date date2 = listOfDates.get(index).get(1);
-        return databaseHandler.getTotalMeasurementsFromDates(date1, date2);
-    }
-
-    private void calculateDates() {
-        //get amount of daily measurements
-        dm_total = realmResults.size();
-        //get first date
-        min_date = realmResults.minDate("time_stamp");
-        //get last date
-        max_date = realmResults.maxDate("time_stamp");
-
-        dm_days = getDeltaDaysFromDates(max_date, min_date);
-        dm_weeks = getDeltaWeeksFromDates(max_date, min_date);
-        dm_months = getDeltaMonthsFromDates(max_date, min_date);
-        dm_years = getDeltaYearsFromDates(max_date, min_date);
-
-        if (dm_years > 5) {
-            fillArrayRelativeToWeeks();
-        } else if (dm_months > 5) {
-            fillArrayRelativeToWeeks();
-        } else if (dm_weeks > 5) {
-            fillArrayRelativeToWeeks();
-        } else {
-            fillArrayRelativeToDays();
-        }
-
-        System.out.println("Size::" + dm_total);
-        System.out.println("latest date: " + max_date.toString());
-        System.out.println("earlist date: " + min_date.toString());
-        System.out.println("Total days: " + dm_days + " weeks: " + dm_weeks + " months: " + dm_months + " years: " + dm_years);
-    }
-
-    private void fillArrayRelativeToDays() {
-        //start date
-        listOfDates = new ArrayList<List<Date>>();
-        DateTime start_date = new DateTime(min_date);
-        for (int a = 0; a < dm_days; a++) {
-            DateTime iterative_date = start_date.plusDays(a);
-            List<Date> dates = new ArrayList<Date>();
-            dates.add(iterative_date.toDate());
-            dates.add(iterative_date.toDate()); //why add two times? Because I need a start and end date.
-            listOfDates.add(a, dates);
-        }
-    }
-
-    private void fillArrayRelativeToWeeks() {
-        //start date
-        listOfDates = new ArrayList<List<Date>>();
-        DateTime reference_date = new DateTime(min_date);
-        for (int a = 0; a < dm_weeks; a++) {
-            //get start date of week
-            DateTime week_start = reference_date.withDayOfWeek(DateTimeConstants.MONDAY).withTimeAtStartOfDay();
-            //get end date of week
-            DateTime week_end = reference_date.withDayOfWeek(DateTimeConstants.SUNDAY).withTimeAtStartOfDay();
-            //save the DateTime objects in the array
-            List<Date> dates = new ArrayList<Date>();
-            dates.add(week_start.toDate());
-            dates.add(week_end.toDate());
-            listOfDates.add(a, dates);
-            //add 7 days to reference_date
-            reference_date = reference_date.plusDays(7);
-            //printing for test
-        }
-    }
-
-    private int getDeltaDaysFromDates(Date date1, Date date2) {
-        DateTime dateTime1 = new DateTime(date1);
-        DateTime dateTime2 = new DateTime(date2);
-        return Math.abs(Days.daysBetween(dateTime1, dateTime2).getDays());
-    }
-
-    private int getDeltaWeeksFromDates(Date date1, Date date2) {
-        DateTime dateTime1 = new DateTime(date1);
-        DateTime dateTime2 = new DateTime(date2);
-        return Math.abs(Weeks.weeksBetween(dateTime1, dateTime2).getWeeks());
-    }
-
-    private int getDeltaMonthsFromDates(Date date1, Date date2) {
-        DateTime dateTime1 = new DateTime(date1);
-        DateTime dateTime2 = new DateTime(date2);
-        return Math.abs(Months.monthsBetween(dateTime1, dateTime2).getMonths());
-    }
-
-    private int getDeltaYearsFromDates(Date date1, Date date2) {
-        DateTime dateTime1 = new DateTime(date1);
-        DateTime dateTime2 = new DateTime(date2);
-        return Math.abs(Years.yearsBetween(dateTime1, dateTime2).getYears());
-    }
-
-    @Override
-    public void onClick(View view) {
-
+    private void changeViewport(int x_min, int y_max, int x_max, int y_min) {
+        Viewport viewport = chartTop.getCurrentViewport();
+        viewport.contains(x_min, y_max, x_max, y_min);
+        //chartTop.setMaximumViewport(viewport);
+        //chartTop.setCurrentViewport(viewport, true);
     }
 
     private class ValueTouchListener implements ColumnChartView.ColumnChartOnValueTouchListener {
@@ -291,10 +286,13 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
 
         @Override
         public void onNothingTouched() {
-
             //generateLineData(Utils.COLOR_GREEN, 0);
-
         }
+    }
+
+    @Override
+    public void onClick(View view) {
+
     }
 
     private void printResults() {
@@ -308,7 +306,8 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
             System.out.println("Q1: " + result.isQuestion1());
             System.out.println("Q2: " + result.isQuestion2());
             System.out.println("Q3: " + result.isQuestion3());
-            System.out.println("Timestamp: " + result.getTime_stamp());
+            System.out.println("Date created: " + result.getDate_created());
+            System.out.println("Date synced: " + result.getDate_synced());
             a++;
         }
     }

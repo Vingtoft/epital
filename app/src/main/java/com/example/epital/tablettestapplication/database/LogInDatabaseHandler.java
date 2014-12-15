@@ -14,7 +14,7 @@ import io.realm.RealmResults;
 
 public class LogInDatabaseHandler {
 
-    String database_name = "logondatabase2.realm";
+    String database_name = "logondatabase5.realm";
     Realm realm;
     LoginFragmentContainerActivity activity;
 

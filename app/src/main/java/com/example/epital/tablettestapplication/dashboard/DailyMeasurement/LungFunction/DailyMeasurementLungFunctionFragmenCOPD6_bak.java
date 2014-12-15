@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -12,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -19,13 +21,10 @@ import com.example.epital.tablettestapplication.R;
 import com.example.epital.tablettestapplication.bluetooth.BluetoothConnectionAgent;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.DailyMeasurementFragmentCommunication;
 
-import java.nio.ByteBuffer;
-import java.nio.CharBuffer;
-
 /**
  * Created by oscarandersen on 17/10/14.
  */
-public class DailyMeasurementLungFunctionFragmenCOPD6 extends Fragment implements View.OnClickListener {
+public class DailyMeasurementLungFunctionFragmenCOPD6_bak extends Fragment implements View.OnClickListener {
 
     private static final int REQUEST_ENABLE_BT = 1;
     BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
@@ -107,22 +106,23 @@ public class DailyMeasurementLungFunctionFragmenCOPD6 extends Fragment implement
                 hideButton();
                 //Connect to device
                 //illustration to turn on device
-                isBluetoothOn.setText("Tænd COPD-6 (illustration kommer)");
+                isBluetoothOn.setText("Tænd apparatet");
+                changeLayout(4);
                 try {
+                    // Deactivate existing connection
                     bluetoothConnectionAgent.close();
-                } catch (Exception e) {
-
-                }
-
+                } catch (Exception e) {}
                 bluetoothConnectionAgent.connect(device);
                 break;
             case 6:
                 hideButton();
                 //illustration to configure the device, and wait for blow
-                isBluetoothOn.setText("COPD-6 er tilsluttet. Tryk på enter 3 gange og foretag måling");
+                isBluetoothOn.setText("Apparatet er tilsluttet. Tryk på enter 3 gange og foretag måling");
+                changeLayout(5);
                 //wait for result
                 break;
             case 7:
+                changeLayout(6);
                 isBluetoothOn.setText("Måling færdig!\nResultat: " + result);
                 //ask user if the result is accepted (yes and no button)
                 showButton();
@@ -172,9 +172,29 @@ public class DailyMeasurementLungFunctionFragmenCOPD6 extends Fragment implement
                 repeat.setOnClickListener(this);
                 break;
             case 4:
+                ImageView turn_on_instruction = (ImageView) getView().findViewById(R.id.nonin_animation);
+                turn_on_instruction.setVisibility(View.VISIBLE);
+                turn_on_instruction.getLayoutParams().height = 396;
+                turn_on_instruction.getLayoutParams().width = 480;
+                turn_on_instruction.setBackgroundResource(R.drawable.turn_on_copd_animation);
+                AnimationDrawable turn_on_animation = (AnimationDrawable) turn_on_instruction.getBackground();
+                turn_on_animation.start();
                 break;
             case 5:
+                System.gc();
+                ImageView press_enter_instruction = (ImageView) getView().findViewById(R.id.nonin_animation);
+                press_enter_instruction.getLayoutParams().height = 468;
+                press_enter_instruction.getLayoutParams().width = 480;
+                press_enter_instruction.setBackgroundResource(R.drawable.copd_press_enter);
+                AnimationDrawable press_enter_animation = (AnimationDrawable) press_enter_instruction.getBackground();
+                press_enter_animation.start();
                 break;
+
+            case 6:
+                ImageView remove_instruction = (ImageView) getView().findViewById(R.id.nonin_animation);
+                remove_instruction.setVisibility(View.GONE);
+                break;
+
             default:
                 //Do nothing here
                 break;
@@ -196,7 +216,7 @@ public class DailyMeasurementLungFunctionFragmenCOPD6 extends Fragment implement
     }
 
 
-    //TODO: Sjuskekode, omstruktur!
+    //TODO: Sjuskekode, omstrukturer!
     int a = 0;
     byte[] container = new byte[1];
     boolean start_flag = false;

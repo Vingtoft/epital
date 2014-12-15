@@ -55,10 +55,11 @@ public class BluetoothConnectionAgent {
             try {
                 // MY_UUID is the app's UUID string, also used by the server code
                 //TODO: If device Android version is 4.0.4 or 4.0.3 do this:
-                tmp = device.createInsecureRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                //tmp = device.createInsecureRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
                 //TODO: Else: Do this:
-                //tmp = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
+                tmp = device.createRfcommSocketToServiceRecord(device.getUuids()[0].getUuid());
             } catch (IOException e) {
+                System.out.println("Fejl under creation af UUID: " + e);
             }
             mmSocket = tmp;
         }
@@ -90,10 +91,7 @@ public class BluetoothConnectionAgent {
             connectedThread = new ConnectedThread(mmSocket);
             connectedThread.start();
             connectedThread.write();
-            try {
-                mmSocket.close();
-            } catch (IOException closeException) {
-            }
+
         }
 
         /**
@@ -149,6 +147,7 @@ public class BluetoothConnectionAgent {
                     testMessage.sendToTarget();
 
                 } catch (IOException e) {
+                    System.out.println("Kunne ikke forbinde: " + e);
                     break;
                 }
             }
@@ -156,7 +155,6 @@ public class BluetoothConnectionAgent {
 
         /* Call this from the main activity to send data to the remote device */
         public void write() {
-
         }
 
         /* Call this from the main activity to shutdown the connection */
