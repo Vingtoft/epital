@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/daily_measurement_content_base"
+    android:layout_width="match_parent"
+    android:layout_height="fill_parent"
+    android:layout_marginLeft="0dp"
+    android:layout_marginTop="101dp"
+    android:background="#0ff">
+
+    <Button
+        android:id="@+id/settingsPrintAuthToken"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_above="@+id/settingsPrintDailyMeasurements"
+        android:layout_alignLeft="@+id/settingsSyncWithServer"
+        android:layout_alignStart="@+id/settingsSyncWithServer"
+        android:text="Print Auth Token"
+        android:textSize="25dp" />
+
+    <Button
+        android:id="@+id/settingsGenerateTestData"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_alignEnd="@+id/settingsSyncWithServer"
+        android:layout_alignRight="@+id/settingsSyncWithServer"
+        android:layout_below="@+id/settingsSyncWithServer"
+        android:text="Generate Test Data"
+        android:textSize="25dp" />
+
+    <Button
+        android:id="@+id/settingsPrintDailyMeasurements"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_above="@+id/settingsSyncWithServer"
+        android:layout_centerHorizontal="true"
+        android:text="Print Daily Measurements"
+        android:textSize="25dp" />
+
+    <Button
+        android:id="@+id/settingsSyncWithServer"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Sync With Server"
+        android:textSize="25dp" />
+
+    <Button
+        android:id="@+id/settingsGenerateOneTestData"
+        android:layout_width="400dp"
+        android:layout_height="75dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:layout_below="@+id/settingsGenerateTestData"
+        android:text="Generate Single Data"
+        android:textSize="25dp" />
+
+</RelativeLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -60,7 +60,6 @@ public class DailyMeasurementLungFunctionFragmenCOPD6_bak extends Fragment imple
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //System.out.println("onActivityResult(), request_code: " + Integer.toString(requestCode) + " resultcode: " + Integer.toString(resultCode));
         if (requestCode == 1 && resultCode == -1) {
             //Bluetooth has been enabled by user at this point
             if (current_state == 2) {
@@ -204,7 +203,6 @@ public class DailyMeasurementLungFunctionFragmenCOPD6_bak extends Fragment imple
     private void turnOnBluetooth() {
         if (bluetoothAdapter == null) {
             //device does not support bluetooth. Story ends here (for now)
-            //TODO: Move to a "Your device does not support BT" fragment
         } else if (!bluetoothAdapter.isEnabled()) {
             //bluetooth is not turned on. Ask user to turn it on.
             Intent enableBluetoothIntent = new Intent(bluetoothAdapter.ACTION_REQUEST_ENABLE);

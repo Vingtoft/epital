@@ -78,7 +78,7 @@ public class DailyMeasurementDatabaseHandler {
     public int getTotalMeasurementsFromDates(Date date1, Date date2) {
         System.out.println("getTotalMeasurementsFromDates");
         RealmQuery<RealmDailyMeasurementDataObject> query = realm.where(RealmDailyMeasurementDataObject.class);
-        query.between("time_stamp", date1, date2);
+        query.between("date_created", date1, date2);
         RealmResults<RealmDailyMeasurementDataObject> result = query.findAll();
         return result.size();
     }
@@ -86,7 +86,7 @@ public class DailyMeasurementDatabaseHandler {
     public ArrayList<Double> getTemperatureFromDates(Date date1, Date date2) {
         System.out.println("getTemperatureFromDates");
         RealmQuery<RealmDailyMeasurementDataObject> query = realm.where(RealmDailyMeasurementDataObject.class);
-        query.between("time_stamp", date1, date2);
+        query.between("date_created", date1, date2);
         RealmResults<RealmDailyMeasurementDataObject> results = query.findAll();
         ArrayList<Double> resultList = new ArrayList<Double>();
         for (RealmDailyMeasurementDataObject result : results) {
@@ -124,7 +124,7 @@ public class DailyMeasurementDatabaseHandler {
             realm.beginTransaction();
             RealmDailyMeasurementDataObject realmObject = realm.createObject(RealmDailyMeasurementDataObject.class);
             realmObject.setDate_created(date);
-            realmObject.setDate_synced(null);
+            realmObject.setDate_synced(new Date(0)); //setting date to Epoch
             realmObject.setPulse(pulse);
             realmObject.setOxygen(oxygen);
             realmObject.setFev1(fev1);
@@ -132,6 +132,8 @@ public class DailyMeasurementDatabaseHandler {
             realmObject.setQuestion1(question1);
             realmObject.setQuestion2(question2);
             realmObject.setQuestion3(question3);
+            realmObject.setServer_id(0);
+            realmObject.setClient_id(generateID());
             realm.commitTransaction();
         }
     }

@@ -89,9 +89,9 @@ public class CitizenHistoryFragment extends Fragment implements View.OnClickList
         //get amount of daily measurements
         dm_total = realmResults.size();
         //get first date
-        min_date = realmResults.minDate("time_stamp");
+        min_date = realmResults.minDate("date_created");
         //get last date
-        max_date = realmResults.maxDate("time_stamp");
+        max_date = realmResults.maxDate("date_created");
         System.out.println("Min date: " + min_date.toString() + " max date: " + max_date.toString());
 
 

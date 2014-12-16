@@ -68,8 +68,7 @@ public class DailyMeasurementCompleteFragment extends Fragment implements View.O
         text_q2.setText(getBooleanAnswer(q2));
         text_q2 = (TextView) getActivity().findViewById(R.id.table_q2_value);
         text_q2.setText(getBooleanAnswer(q2));
-        continue_button = (Button) getActivity().findViewById(R.id.complete_button);
-        continue_button.setOnClickListener(this);
+
     }
 
     private String getBooleanAnswer(boolean answer) {
@@ -78,9 +77,7 @@ public class DailyMeasurementCompleteFragment extends Fragment implements View.O
 
     @Override
     public void onClick(View button) {
-        if (button == continue_button){
-            comm.changeDailyMeasurementContent(9);
-        }
+
     }
 }
 

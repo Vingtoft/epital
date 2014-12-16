@@ -24,6 +24,7 @@ import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Navig
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Questions.DailyMeasurementQuestionFragment;
 import com.example.epital.tablettestapplication.dashboard.DailyMeasurement.Temperature.DailyMeasurementTemperatureFragment;
 import com.example.epital.tablettestapplication.dashboard.History.CitizenHistoryFragment;
+import com.example.epital.tablettestapplication.dashboard.Settings.SettingsFragment;
 import com.example.epital.tablettestapplication.database.DailyMeasurementDatabaseHandler;
 import com.example.epital.tablettestapplication.database.RealmDailyMeasurementDataObject;
 import com.example.epital.tablettestapplication.login.LoginFragmentContainerActivity;
@@ -59,6 +60,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
     DailyMeasurementLungFunctionFragmentSPIROMAGIC dailyMeasurementLungFunctionFragmentSPIROMAGIC;
     DailyMeasurementCompleteFragment dailyMeasurementCompleteFragment;
     DailyMeasurementDatabaseHandler dailyMeasurementDatabaseHandler;
+    SettingsFragment settingsFragment;
     ServerLogIn serverLogIn;
 
     //daily measurement list
@@ -76,6 +78,8 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
     FragmentTransaction fragmentTransaction;
     ApplicationObject applicationObject;
     String auth_token;
+
+    int menu_selected;
 
 
     @Override
@@ -113,6 +117,7 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
         dailyMeasurementLungFunctionFragmenCOPD6 = new DailyMeasurementLungFunctionFragmenCOPD6_bak();
         dailyMeasurementTemperatureFragment = new DailyMeasurementTemperatureFragment();
         dailyMeasurementLungFunctionFragmentSPIROMAGIC = new DailyMeasurementLungFunctionFragmentSPIROMAGIC();
+        settingsFragment = new SettingsFragment();
         serverLogIn = new ServerLogIn();
         citizentHistoryFragment = new CitizenHistoryFragment();
         //init daily measurement data object
@@ -165,91 +170,60 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
         switch (selection) {
             case 1:
                 System.out.println("Ring til Call Center");
-
-                dailyMeasurementDatabaseHandler.printAllMeasurements();
-
                 removeActiveFragments();
                 removeDailyMeasurementActiveFragments();
                 break;
             case 2:
-                System.out.println("Daglig måling");
-                removeActiveFragments();
-                removeDailyMeasurementActiveFragments();
-                fragmentManager = getFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                //add the fragment objects to the activeFragments arraylist (important this is part of the transaction)
-                activeFragments.add(dailyMeasurementListFragment);
-                fragmentTransaction.add(R.id.dashboard_container, dailyMeasurementListFragment, "dailyMeasurementListFragment");
-                fragmentTransaction.commit();
-                changeDailyMeasurementContent(0);
+                if (menu_selected != 2) {
+                    menu_selected = 2;
+                    System.out.println("Daglig måling");
+                    removeActiveFragments();
+                    removeDailyMeasurementActiveFragments();
+                    fragmentManager = getFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    //add the fragment objects to the activeFragments arraylist (important this is part of the transaction)
+                    activeFragments.add(dailyMeasurementListFragment);
+                    fragmentTransaction.add(R.id.dashboard_container, dailyMeasurementListFragment, "dailyMeasurementListFragment");
+                    fragmentTransaction.commit();
+                    changeDailyMeasurementContent(0);
+                }
                 break;
             case 3:
                 System.out.println("Min medicin");
-                /*DailyMeasurementDatabaseHandler databaseHandler = new DailyMeasurementDatabaseHandler(this);
-                databaseHandler.generateTestData();*/
-
-                syncWithServer();
-
                 //move to new fragment
                 removeActiveFragments();
                 removeDailyMeasurementActiveFragments();
                 break;
             case 4:
                 System.out.println("Mine tilbud");
-                //get all DM datasets
-
-                Realm realm = Realm.getInstance(this, "dailymeasurements10.realm");
-                RealmResults<RealmDailyMeasurementDataObject> realmResults = realm.where(RealmDailyMeasurementDataObject.class).findAll();
-                int a = 0;
-                for (RealmDailyMeasurementDataObject result : realmResults) {
-                    System.out.println("Måling nummer: " + a);
-                    System.out.println("Pulse: " + result.getPulse());
-                    System.out.println("Oxygen: " + result.getOxygen());
-                    System.out.println("Fev1: " + result.getFev1());
-                    System.out.println("Temp: " + result.getTemperature());
-                    System.out.println("Q1: " + result.isQuestion1());
-                    System.out.println("Q2: " + result.isQuestion2());
-                    System.out.println("Q3: " + result.isQuestion3());
-                    System.out.println("Date created: " + result.getDate_created());
-                    System.out.println("Date synced: " + result.getDate_synced());
-                    a++;
-                }
                 removeActiveFragments();
                 removeDailyMeasurementActiveFragments();
                 break;
             case 5:
-                System.out.println("Min Historik");
-                removeActiveFragments();
-                removeDailyMeasurementActiveFragments();
-                fragmentManager = getFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                activeFragments.add(citizentHistoryFragment);
-                fragmentTransaction.add(R.id.dashboard_container, citizentHistoryFragment, "citizentHistoryFragment");
-                fragmentTransaction.commit();
+                if (menu_selected != 5) {
+                    menu_selected = 5;
+                    System.out.println("Min Historik");
+                    removeActiveFragments();
+                    removeDailyMeasurementActiveFragments();
+                    fragmentManager = getFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    activeFragments.add(citizentHistoryFragment);
+                    fragmentTransaction.add(R.id.dashboard_container, citizentHistoryFragment, "citizentHistoryFragment");
+                    fragmentTransaction.commit();
+                }
                 break;
             case 6:
-                DailyMeasurementDatabaseHandler _databaseHandler = new DailyMeasurementDatabaseHandler(this);
-                dailyMeasurementDataObject = new DailyMeasurementDataObject();
-                dailyMeasurementDataObject.setQuestion1(false);
-                dailyMeasurementDataObject.setQuestion2(false);
-                dailyMeasurementDataObject.setQuestion3(false);
-                dailyMeasurementDataObject.setFev1(4.4);
-                dailyMeasurementDataObject.setOxygen(98);
-                dailyMeasurementDataObject.setPulse(95);
-                dailyMeasurementDataObject.setTemperature(37.4);
-                //TODO: Gem HH:mm:ss
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-                String date = sdf.format(new Date());
-                System.out.println("Dato er: " + date);
-                dailyMeasurementDataObject.setDate_created_on_client(date);
-                dailyMeasurementDataObject.setClient_id(_databaseHandler.saveDailyMeasurement(dailyMeasurementDataObject));
-
-                SaveDailyMeasurementToServer saveDailyMeasurementToServer = new SaveDailyMeasurementToServer(okHttpCallback);
-                saveDailyMeasurementToServer.save(dailyMeasurementDataObject, auth_token);
-
-                System.out.println("Indstillinger");
-                removeActiveFragments();
-                removeDailyMeasurementActiveFragments();
+                if (menu_selected != 6) {
+                    menu_selected = 6;
+                    System.out.println("Indstillinger");
+                    removeActiveFragments();
+                    removeDailyMeasurementActiveFragments();
+                    fragmentManager = getFragmentManager();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    activeFragments.add(settingsFragment);
+                    fragmentTransaction.add(R.id.dashboard_container, settingsFragment, "settingsContainer");
+                    fragmentTransaction.commit();
+                }
                 break;
             case 7:
                 System.out.println("Afslut program");
@@ -261,6 +235,69 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
             default:
                 break;
         }
+    }
+
+    @Override
+    public void printAuthToken() {
+        System.out.println("Auth token: " + auth_token);
+    }
+
+    @Override
+    public void generateTestData() {
+        dailyMeasurementDatabaseHandler.generateTestData();
+        System.out.println("Test data has been generated");
+    }
+
+    @Override
+    public void printDailyMeasurements() {
+        dailyMeasurementDatabaseHandler.printAllMeasurements();
+    }
+
+    @Override
+    public void syncWithServer() {
+        RealmResults<RealmDailyMeasurementDataObject> unsyncedData = dailyMeasurementDatabaseHandler.getUnsyncedData();
+        for (RealmDailyMeasurementDataObject data : unsyncedData) {
+            //convert the Realm object into the normal object (used for serialization)
+            DailyMeasurementDataObject dailyMeasurementDataObject1 = new DailyMeasurementDataObject();
+            dailyMeasurementDataObject1.setPulse(data.getPulse());
+            dailyMeasurementDataObject1.setOxygen(data.getOxygen());
+            dailyMeasurementDataObject1.setTemperature(data.getTemperature());
+            dailyMeasurementDataObject1.setFev1(data.getFev1());
+            dailyMeasurementDataObject1.setQuestion1(data.isQuestion1());
+            dailyMeasurementDataObject1.setQuestion2(data.isQuestion2());
+            dailyMeasurementDataObject1.setQuestion3(data.isQuestion3());
+            //måske bøvl med dato format
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            String date = sdf.format(data.getDate_created());
+            dailyMeasurementDataObject1.setDate_created_on_client(date);
+            dailyMeasurementDataObject1.setClient_id(data.getClient_id());
+
+            SaveDailyMeasurementToServer saveDailyMeasurementToServer = new SaveDailyMeasurementToServer(okHttpCallback);
+            saveDailyMeasurementToServer.save(dailyMeasurementDataObject1, auth_token);
+
+
+        }
+    }
+
+    @Override
+    public void generateOneTestdata() {
+        DailyMeasurementDatabaseHandler _databaseHandler = new DailyMeasurementDatabaseHandler(this);
+        dailyMeasurementDataObject = new DailyMeasurementDataObject();
+        dailyMeasurementDataObject.setQuestion1(false);
+        dailyMeasurementDataObject.setQuestion2(false);
+        dailyMeasurementDataObject.setQuestion3(false);
+        dailyMeasurementDataObject.setFev1(4.4);
+        dailyMeasurementDataObject.setOxygen(98);
+        dailyMeasurementDataObject.setPulse(95);
+        dailyMeasurementDataObject.setTemperature(37.4);
+        //TODO: Gem HH:mm:ss
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String date = sdf.format(new Date());
+        dailyMeasurementDataObject.setDate_created_on_client(date);
+        dailyMeasurementDataObject.setClient_id(_databaseHandler.saveDailyMeasurement(dailyMeasurementDataObject));
+
+        SaveDailyMeasurementToServer saveDailyMeasurementToServer = new SaveDailyMeasurementToServer(okHttpCallback);
+        saveDailyMeasurementToServer.save(dailyMeasurementDataObject, auth_token);
     }
 
     @Override
@@ -347,6 +384,12 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
             case 7:
                 //save data to database
                 DailyMeasurementDatabaseHandler databaseHandler = new DailyMeasurementDatabaseHandler(this);
+                dailyMeasurementDataObject.setClient_id(databaseHandler.generateID());
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+                String date = sdf.format(new Date());
+                dailyMeasurementDataObject.setDate_created_on_client(date);
+                date = sdf.format(new Date(0)); //epoch
+                dailyMeasurementDataObject.setDate_saved_on_server(date);
                 databaseHandler.saveDailyMeasurement(dailyMeasurementDataObject);
                 // Upload daily measurement data to server
                 SaveDailyMeasurementToServer saveDailyMeasurementToServer = new SaveDailyMeasurementToServer(okHttpCallback);
@@ -417,31 +460,6 @@ public class DashboardFragmentContainerActivity extends Activity implements Dash
             }
         }
     };
-
-    private void syncWithServer() {
-        RealmResults<RealmDailyMeasurementDataObject> unsyncedData = dailyMeasurementDatabaseHandler.getUnsyncedData();
-        for (RealmDailyMeasurementDataObject data : unsyncedData) {
-            //convert the Realm object into the normal object (used for serialization)
-            DailyMeasurementDataObject dailyMeasurementDataObject1 = new DailyMeasurementDataObject();
-            dailyMeasurementDataObject1.setPulse(data.getPulse());
-            dailyMeasurementDataObject1.setOxygen(data.getOxygen());
-            dailyMeasurementDataObject1.setTemperature(data.getTemperature());
-            dailyMeasurementDataObject1.setFev1(data.getFev1());
-            dailyMeasurementDataObject1.setQuestion1(data.isQuestion1());
-            dailyMeasurementDataObject1.setQuestion2(data.isQuestion2());
-            dailyMeasurementDataObject1.setQuestion3(data.isQuestion3());
-            //måske bøvl med dato format
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-            String date = sdf.format(data.getDate_created());
-            dailyMeasurementDataObject1.setDate_created_on_client(date);
-            dailyMeasurementDataObject1.setClient_id(data.getClient_id());
-
-            SaveDailyMeasurementToServer saveDailyMeasurementToServer = new SaveDailyMeasurementToServer(okHttpCallback);
-            saveDailyMeasurementToServer.save(dailyMeasurementDataObject1, auth_token);
-
-
-        }
-    }
 
 
     /* Setters for  data */

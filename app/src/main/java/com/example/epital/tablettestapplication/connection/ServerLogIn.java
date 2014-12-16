@@ -21,7 +21,7 @@ import java.io.IOException;
 
 public class ServerLogIn {
 
-    String basic_url = "http://93.167.89.66:8852/";
+    String basic_url = "http://www.grower.dk/";
 
     Handler mhandler;
 

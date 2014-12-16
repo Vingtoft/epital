@@ -36,7 +36,7 @@ public class SaveDailyMeasurementToServer{
     public void save(DailyMeasurementDataObject dataObject, String token){
         Gson gson = new Gson();
         String dataObjectJSON = gson.toJson(dataObject);
-        String url = "http://93.167.89.66:8852/daily_measurements/";
+        String url = "http://www.grower.dk/daily_measurements/";
         try{
             post(url, dataObjectJSON, token);
         } catch (IOException e){
